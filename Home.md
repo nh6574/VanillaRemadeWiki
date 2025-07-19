@@ -50,7 +50,7 @@ To accomplish this in VSCode you can either:
 
 Optionally, you can also point it to a love2d folder for more definitions or [this project by frostice482](https://github.com/frostice482/balatro-lsp) that adds more descriptions to vanilla code.
 
-#### 4. Base mod
+#### 4. Basic mod
 
 Now that we have all of that we will set up a quick template mod. First, create a folder for your mod if you haven't already. (I recommend developing directly on your Balatro Mods folder for fast testing.). Open that folder in VSCode.
 
