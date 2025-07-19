@@ -13,7 +13,7 @@ This FAQ covers frequently used fields, functions and pieces of code for Balatro
 
 If you haven't already, install [Lovely](https://github.com/ethangreen-dev/lovely-injector) and [smods](https://github.com/Steamodded/smods) by following the [instructions here](https://github.com/Steamodded/smods/wiki).
 
-It is recommended to have both updated at all times while developing as they released new features and bugfixes all the time.
+It is recommended to have both updated at all times while developing as they release new features and bugfixes all the time.
 
 You will know they're installed properly once you see the "Mods" button on the main menu and the SMODS version in the corner.
 
