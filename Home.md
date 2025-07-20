@@ -331,6 +331,10 @@ Work in progress.
 
 ## UI & Visual effects
 
+### How do I add my own custom colors to use in descriptions?
+
+Work in progress.
+
 ### How do I change the name or description of a card dynamically?
 
 Work in progress.
@@ -352,6 +356,10 @@ Work in progress.
 Work in progress.
 
 ## General mod customization
+
+### How do I add a custom icon?
+
+Work in progress.
 
 ### How do I add a config page?
 
