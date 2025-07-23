@@ -9,7 +9,7 @@ This FAQ covers frequently used fields, functions and pieces of code for Balatro
 > [!NOTE]
 > This is _not_ meant to be a tutorial on how to make Balatro mods but rather advice on how to set up your environment for developing mods.
 
-#### 1. Install Lovely and SMODS
+##### 1. Install Lovely and SMODS
 
 If you haven't already, install [Lovely](https://github.com/ethangreen-dev/lovely-injector) and [smods](https://github.com/Steamodded/smods) by following the [instructions here](https://github.com/Steamodded/smods/wiki).
 
