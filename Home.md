@@ -9,7 +9,7 @@ This FAQ covers frequently used fields, functions and pieces of code for Balatro
 > [!NOTE]
 > This is _not_ meant to be a tutorial on how to make Balatro mods but rather advice on how to set up your environment for developing mods.
 
-##### 1. Install Lovely and SMODS
+#### 1. Install Lovely and SMODS
 
 If you haven't already, install [Lovely](https://github.com/ethangreen-dev/lovely-injector) and [smods](https://github.com/Steamodded/smods) by following the [instructions here](https://github.com/Steamodded/smods/wiki).
 
@@ -163,7 +163,11 @@ That's it, now you're free to go and make your Balatro dreams come true. If you 
 
 ### Do I need to know Lua to mod the game?
 
-Work in progress.
+Yes, at least at a basic level.
+
+While for the most part the code will be pretty simple, thanks to the SMODS API abstraction, if you don't have some understanding about what a for loop is or how to index a table then you might struggle. I recommend reading the recommendations above and looking up some YouTube tutorials. Keep in mind Balatro uses [`LuaJIT`](https://luajit.org/luajit.html) which in turn uses [`Lua 5.1`](https://www.lua.org/manual/5.1/) syntax, so newer features might not work.
+
+If you really don't want to learn, try [Joker Forge](https://jokerforge.jaydchw.com/).
 
 ### Where can I find \[X\] in the game's source code?
 
