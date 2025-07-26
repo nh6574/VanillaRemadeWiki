@@ -40,7 +40,7 @@ To accomplish this in VSCode you can either:
 
 - Open a folder that contains your mod, the `smods` folder and the `lovely/dump` folder (such as opening your entire Mods folder). This is the easiest way but it can lead to your workspace being disorganized and harder to navigate in.
 
-- Set up your workspace settings so they point to those folders. You can do this either by creating a `.luarc.json` file in your mod's folder or by pressing `F1` and searching `Preferences: Open Workspace Settings` and adding the following (you can omit `Lua.` when using a luarc file):
+- Set up your workspace settings so they point to those folders. You can do this either by creating a `.luarc.json` file in your mod's folder or by pressing `F1` and searching `Preferences: Open Workspace Settings (JSON)` and adding the following (you can omit `Lua.` when using a luarc file):
 
 ```json
 {
