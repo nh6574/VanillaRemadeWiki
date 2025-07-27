@@ -165,7 +165,7 @@ That's it, now you're free to go and make your Balatro dreams come true. If you 
 
 Yes, at least at a basic level.
 
-While for the most part the code will be pretty simple, thanks to the SMODS API abstraction, if you don't have some understanding about what a for loop is or how to index a table then you might struggle. I recommend reading the recommendations above and looking up some YouTube tutorials. Keep in mind Balatro uses [`LuaJIT`](https://luajit.org/luajit.html) which in turn uses [`Lua 5.1`](https://www.lua.org/manual/5.1/) syntax, so newer features might not work.
+While for the most part the code will be pretty simple, thanks to the SMODS API abstractions, if you don't have some understanding about what a for loop is or how to index a table then you might struggle. I recommend reading the recommendations above and looking up some YouTube tutorials. Keep in mind Balatro uses [`LuaJIT`](https://luajit.org/luajit.html) which in turn uses [`Lua 5.1`](https://www.lua.org/manual/5.1/) syntax, so newer features might not work.
 
 If you really don't want to learn, try [Joker Forge](https://jokerforge.jaydchw.com/).
 
