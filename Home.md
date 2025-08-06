@@ -665,7 +665,7 @@ end
 
 ## Making new additions
 
-### How do I make custom art for my cards?
+### How do I add the custom art for my cards to my mod?
 
 [Make an `SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas). Example:
 
