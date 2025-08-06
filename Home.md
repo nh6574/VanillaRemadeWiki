@@ -830,6 +830,8 @@ local area_limit = area.config.card_limit
 local consumable_limit = G.consumeables.config.card_limit
 ```
 
+To change size:
+
 ```lua
 area:change_size(mod)
 
