@@ -588,11 +588,8 @@ Here's how you would enable all current optional features.
 
 ```lua
 SMODS.current_mod.optional_features = {
-    -- Enables retriggering jokers using `context.retrigger_joker_check`
     retrigger_joker = true,
-    -- Enables calculations after an object is triggered using `context.post_trigger`
     post_trigger = true,
-    -- Enables `context.check_enhancements`
     quantum_enhancements = true,
     cardareas = {
         discard = true,
