@@ -1086,4 +1086,4 @@ We can prevent this by adding a dummy `to_big` function to our mod that does not
 to_big = to_big or function(x) return x end
 ```
 
-The values changed by Talisman include scored chips, scored mult, total score, dollars, poker hand levels nd others.
+The values changed by Talisman include scored chips, scored mult, total score, dollars, poker hand levels and others.
