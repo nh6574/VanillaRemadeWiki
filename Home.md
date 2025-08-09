@@ -1036,7 +1036,8 @@ local rank = localize(key, 'ranks')
 local poker_hand = localize(key, 'poker_hands')
 
 -- For most other objects
-local name = localize { type = 'name_text', set = set, key = key } -- See also `How do I get the `set`, `pool` or `key` of a specific card/object?`
+local name = localize { type = 'name_text', set = obj_set, key = obj_key } -- Replace `obj_set` and `obj_key` for the set and key of your object
+-- See also `How do I get the `set`, `pool` or `key` of a specific card/object?`
 ```
 
 ### How do I get the current hand's chips/mult?
