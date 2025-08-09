@@ -773,27 +773,127 @@ See also [what's a `pool` or `set`](#whats-a-poolset) and [how to get a pool](#h
 
 ### How do I check if a playing card has a specific suit/rank?
 
-Work in progress.
+```lua
+local card_id = playing_card:get_id() == 13 -- Ranks 2-10 are IDs 2-10, Jack is 11, Queen is 12, King is 13, Ace is 14. Respects enhancements
+local card_rank_key = playing_card.base.value == "King" -- Gets the ranks as a key. Modded ranks are "modprefix_key". Doesn't respect enhancements
+local is_hearts = playing_card:is_suit("Hearts") -- This respects enhancements
+local card_suit = playing_card.base.suit == "Hearts" -- Gets the suit as a key. Modded suits are "modprefix_key". Doesn't respect enhancements
+
+-- There are also checks for enhancement modifiers
+local has_no_rank = SMODS.has_no_rank(playing_card)
+local has_no_suit = SMODS.has_no_suit(playing_card)
+local has_any_suit = SMODS.has_any_suit(playing_card)
+```
 
 ### How do I get if a card has a specific edition/enhancement/seal/sticker?
 
-Work in progress.
+```lua
+-- Edition
+local has_edition = card.edition -- nil if it doesn't have one
+local is_foil = card.edition and card.edition.key == "e_foil"
+
+-- Enhancement
+local has_enhancement = next(SMODS.get_enhancements(card)) -- nil if it doesn't have one. This respects quantum enhancements
+local is_lucky = SMODS.has_enhancement(card, "m_lucky") -- This respects quantum enhancements
+local is_stone = card.config.center.key == "m_stone" -- This doesn't respect quantum enhancements
+
+-- Seal
+local has_seal = card.seal -- nil if it doesn't have one
+local is_red_seal = card.seal == "Red"
+
+-- Sticker
+local is_rental = card.ability.rental
+local is_perishable = card.ability.perishable
+local is_eternal = SMODS.is_eternal(card, trigger) -- Allows using `context.check_eternal`. `trigger` is the card or effect that runs the check
+local is_eternal_alt = card.ability.eternal -- Doesn't respect `context.check_eternal`
+local is_modded = card.ability.modprefix_key -- For modded stickers
+```
 
 ### How do I get the `set`, `pool` or `key` of a specific card/object?
 
-Work in progress.
+```lua
+-- For Centers
+local key = card.config.center.key -- also `card.config.center_key`
+
+local set = card.ability.set
+local is_joker = card.ability.set == "Joker"
+local is_tarot = card.ability.set == "Tarot"
+local is_planet = card.ability.set == "Planet"
+local is_spectral = card.ability.set == "Spectral"
+local is_voucher = card.ability.set == "Voucher"
+local is_booster = card.ability.set == "Booster"
+local is_base_playing_card = card.ability.set == "Default"
+local is_enhanced_playing_card = card.ability.set == "Enhanced"
+
+local is_part_of_object_type = (card.config.center.pools or {}).modprefix_Food -- See "How do I create a `pool`/`set`?""
+
+-- For Blinds
+local blind = G.GAME.blind -- current blind
+local key = blind.config.blind.key
+
+-- For Decks
+local deck = G.GAME.selected_back -- current deck
+local key = deck.effect.center.key
+
+-- For Challenges
+local key = G.GAME.challenge -- nil if none
+
+-- For Stakes
+local key = G.P_CENTER_POOLS.Stake[G.GAME.stake].key
+
+-- For Tags
+local key = tag.config.tag.key
+```
 
 ### How do I get if the player has a certain card?
 
-Work in progress.
+For Jokers, Consumables, Vouchers and any other card in a Joker-like area:
 
-### How do I get a random number?
+```lua
+if next(SMODS.find_card("j_splash")) then -- If player has Splash
+    -- do code
+end
 
-Work in progress.
+for _, hermit in ipairs(SMODS.find_card("c_hermit")) do -- For each copy of The Hermit
+    -- do code
+end
+```
 
-### How do I get a random element from a list?
+For Playing Cards you would need to loop through the area and check manually for what you want. Examples:
 
-Work in progress.
+```lua
+-- Example 1:
+if context.joker_main then -- In `calculate`
+    for _, playing_card in ipairs(context.scoring_hand) do -- For each card in the scoring hand
+        if playing_card:get_id() == 14 and playing_card:is_suit("Spades") then -- If it's an Ace of Spades
+            -- do code
+        end
+    end
+end
+
+-- Example 2:
+for _, playing_card in ipairs(G.deck.area) do -- For each card in remaining in deck
+    if playing_card:has_enhancement("m_steel") then -- If it's a Steel card
+        -- do code
+    end
+end
+```
+
+### How do I get a random number/element?
+
+If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it instead](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using `SMODS.pseudorandom_probability`.
+
+```lua
+-- For these examples we use a string to set the seed, the exact value is not important as long as its unique
+-- It's recommended for it to include the mod prefix. You can also append G.GAME.round_resets.ante to make the seed unique each ante, for example
+
+local random_number = pseudorandom("modprefix_my_unique_seed") -- Random floating point number between 0 and 1
+local random_number_from_min_to_max = pseudorandom("modprefix_another_seed", 4, 34) -- Random number from min to max (inclusive). 4 to 34 in this case
+
+local list = { "hi", 3, "bye" }
+local random_element, index_in_the_list = pseudorandom_element(list, "modprefix_seed") -- You can also ignore the index
+pseudoshuffle(list, "modprefix_shuffle") -- You can also shuffle the list
+```
 
 ### How do I get the cards in an area?
 
@@ -837,6 +937,12 @@ area:change_size(mod)
 
 -- Example:
 G.jokers:change_size(-1) -- Remove 1 Joker slot
+```
+
+### How do I get the current amount of money?
+
+```lua
+local current_money = G.GAME.dollars
 ```
 
 ### What's `joker_buffer`/`consumeable_buffer`/`dollar_buffer`?
@@ -898,73 +1004,332 @@ G.E_MANAGER:add_event(Event({
 
 ### How can I get the localized name of \[X\]?
 
-Work in progress.
+```lua
+local suit_singular = localize(key, 'suits_singular')
+local suit_plural = localize(key, 'suits_plural')
+local rank = localize(key, 'ranks')
+local poker_hand = localize(key, 'poker_hands')
+
+-- For most other objects
+local name = localize { type = 'name_text', set = set, key = key } -- See also `How do I get the `set`, `pool` or `key` of a specific card/object?`
+```
+
+### How do I get the current hand's chips/mult?
+
+```lua
+-- Only during scoring
+local current_hand_chips = hand_chips
+local current_hand_mult = mult
+```
+
+### How do I get the current scored chips or Blind requirement?
+
+```lua
+local current_score = G.GAME.chips
+local current_requirements = G.GAME.blind.chips
+```
 
 ### How do I check if the score is on fire?
 
-Work in progress.
+```lua
+-- Only during scoring
+if hand_chips * mult > G.GAME.blind.chips then
+    -- do code
+end
+```
 
 ### How do I get the most played hand?
 
-Work in progress.
+```lua
+-- Similar to The Ox
+local _handname, _played = 'High Card', -1
+for hand_key, hand in pairs(G.GAME.hands) do
+    if hand.played > _played then
+        _played = hand.played
+        _handname = hand_key
+    end
+end
+local most_played = _handname
+```
 
 ### How do I get the planet card for a specific hand?
 
-Work in progress.
+```lua
+local handname = context.scoring_name -- As an example, it can be any poker hand key
+local planet
+for _, center in pairs(G.P_CENTER_POOLS.Planet) do
+    if center.config.hand_type == handname then
+        planet = center.key
+    end
+end
+local planet_for_handname = planet -- Might be nil with mods
+```
 
 ### How do I get the type of the current Blind?
 
-Work in progress.
+```lua
+local blind_type = G.GAME.blind:get_type()
+local is_small = blind_type == "Small"
+local is_big = blind_type == "Big"
+local is_boss = blind_type == "Boss"
+local is_boss_alt = G.GAME.blind.boss
+local is_showdown_boss = G.GAME.blind.config.blind.boss.showdown -- i.e. Ante 8 boss
+```
 
 ### How do I get if the player is in a Blind?
 
-Work in progress.
+```lua
+local is_in_blind = G.GAME.blind.in_blind
+```
 
 ### How do I get if the player is in a shop?
 
-Work in progress.
+```lua
+local is_in_shop = G.STATE == G.STATES.SHOP
+```
+
+### How do I get if a card is face-up/down?
+
+```lua
+local is_faceup = card.facing == "front"
+local is_facedown = card.facing == "back"
+```
 
 ## Miscellaneous effects
 
-### How do I give \[X\] type of card to the player?
+### How do I give \[X\] type of card/object to the player?
 
-Work in progress.
+#### Jokers or Consumables
 
-### How do I give a card a random Enhancement/Edition/Seal/etc.?
+```lua
+SMODS.add_card{ -- For a random one
+    set = "Joker" -- See `What's a `pool`/`set`?`
+    key_append = "modprefix_append" -- Optional, key for randomization/pool checking
+}
+SMODS.add_card{ key = "c_fool" } -- For a specific one
+```
 
-Work in progress.
+#### Playing Cards
 
-### How do I immediately win/lose a Blind?
+```lua
+SMODS.add_card{ -- For a random one
+    set = "Playing Card" -- For a random chance of being enhanced
+    key_append = "modprefix_append", -- Optional, key for randomization/pool checking
+    area = G.deck -- Optional, defaults to the hand
+}
 
-Work in progress.
+SMODS.add_card{ -- Random unenhanced Ace
+    set = "Base"
+    key_append = "modprefix_append", -- Optional, key for randomization/pool checking
+    rank = "Ace"
+}
+
+SMODS.add_card{ -- Random enhanced 3 of Clubs
+    set = "Base"
+    key_append = "modprefix_append", -- Optional, key for randomization/pool checking
+    rank = "3",
+    suit = "Clubs"
+}
+```
+
+#### Tags
+
+```lua
+--- Credits to Eremel
+local tag_pool = get_current_pool('Tag')
+local selected_tag = pseudorandom_element(tag_pool, 'modprefix_seed')
+local it = 1
+while selected_tag == 'UNAVAILABLE' do
+    it = it + 1
+    selected_tag = pseudorandom_element(tag_pool, pseudoseed('modprefix_seed_resample'..it))
+end
+add_tag(Tag(selected_tag, false, 'Small'))
+```
+
+#### Voucher
+
+```lua
+local voucher_pool = get_current_pool('Voucher')
+local selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed')
+local it = 1
+while selected_voucher == 'UNAVAILABLE' do
+    it = it + 1
+    selected_voucher = pseudorandom_element(voucher_pool, pseudoseed('modprefix_seed_resample'..it))
+end
+selected_voucher:redeem()
+```
+
+### How do I give a card a random Edition/Enhancement/Seal?
+
+#### Edition
+
+```lua
+local random_edition = poll_edition("modprefix_seed", nil, true, true) -- Will guarantee a random non-negative edition. See `SMODS.Edition` docs for more details.
+
+SMODS.add_card { set = "Joker", edition = random_edition } -- Add a card with an edition
+card:set_edition(random_edition) -- Set an edition on an existing card
+
+-- Jokers might already have a random edition if using `create_card`/`SMODS.create_card`/`SMODS.add_card`
+-- To prevent this do:
+SMODS.add_card { set = "Joker", no_edition = true }
+```
+
+#### Enhancement
+
+```lua
+SMODS.add_card { set = "Enhanced" } -- Add a card with an enhancement
+
+local random_enhancement = SMODS.poll_enhancement {key = "modprefix_seed", guaranteed = true} -- See SMODS Utility docs for more details
+card:set_ability(random_enhancement) -- Set an enhancement on an existing card
+```
+
+#### Seal
+
+```lua
+local random_seal = SMODS.poll_seal {key = "modprefix_seed", guaranteed = true} -- See SMODS Utility docs for more details
+
+SMODS.add_card { set = "Playing Card", seal = random_seal } -- Add a card with a seal
+card:set_seal(random_seal) -- Set a seal on an existing card
+```
+
+### How do I change a card into another?
+
+```lua
+-- Transform any card into Cavendish
+card:set_ability("j_cavendish")
+```
+
+### How do I immediately win a Blind?
+
+```lua
+G.E_MANAGER:add_event(Event({
+    blocking = false,
+    func = function()
+        if G.STATE == G.STATES.SELECTING_HAND then
+            G.GAME.chips = G.GAME.blind.chips
+            G.STATE = G.STATES.HAND_PLAYED
+            G.STATE_COMPLETE = true
+            end_round()
+            return true
+        end
+    end
+}))
+```
 
 ### How do I immediately win/lose the run?
 
-Work in progress.
+Win the run:
+
+```lua
+win_game()
+G.GAME.won = true
+```
+
+Lose the run:
+
+```lua
+-- Credits to Winter <3
+G.STATE = G.STATES.GAME_OVER
+if not G.GAME.won and not G.GAME.seeded and not G.GAME.challenge then
+    G.PROFILES[G.SETTINGS.profile].high_scores.current_streak.amt = 0
+end
+G:save_settings()
+G.FILE_HANDLER.force = true
+G.STATE_COMPLETE = false
+```
 
 ### How do I change the Blind's requirement in the middle of a Blind?
 
-Work in progress.
+```lua
+-- Reduce blind's requirement by 50%
+G.GAME.blind.chips = math.floor(G.GAME.blind.chips - G.GAME.blind.chips * 0.5)
+G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
+```
 
 ### How do I change the amount of chips scored in the middle of a Blind?
 
-Work in progress.
+```lua
+-- Adds 500 chips to the score
+G.GAME.chips = G.GAME.chips + 500
+```
 
 ### How do I change the amount of chips and mult about to be scored by the current hand?
 
-Work in progress.
+```lua
+-- During scoring
+-- Set Chips to 1 and adds 20 to mult
+hand_chips = 1
+mult = mult + 20
+```
 
 ### How do I destroy cards?
 
-Work in progress.
+> [!WARNING]
+> During scoring or while discarding playing cards use Method 1 or phantom cards might appear.
+
+```lua
+--- Method 1
+--- For playing cards while scoring/discarding
+if context.destroy_card then
+    if context.cardarea == G.hand and context.destroy_card:is_suit("Diamonds") then -- If it's a Diamond held in hand
+        return { remove = true }
+    end
+end
+```
+
+```lua
+--- Method 2
+--- For anything else
+SMODS.destroy_cards(card) -- Singular card
+
+SMODS.destroy_cards(G.jokers.cards) -- Can take multiple cards
+```
+
+### How do I level up a hand?
+
+```lua
+SMODS.smart_level_up_hand(card, "Three of a Kind", nil, 3) -- Level up Three of a Kind by 3
+```
 
 ### How do I copy multiple cards at once?
 
-Work in progress.
+```lua
+--- Copy Jokers to the left and right
+-- In `calculate`
+local current_index
+
+for i = 1, #G.jokers.cards do
+    if G.jokers.cards[i] == card then
+        current_index = i
+        break
+    end
+end
+
+local left_ret = SMODS.blueprint_effect(card, G.jokers.cards[current_index - 1], context)
+local right_ret = SMODS.blueprint_effect(card, G.jokers.cards[current_index + 1], context)
+
+return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as many calculate returns as you want
+```
 
 ### How do I add exponential mult/chips?
 
-Work in progress.
+SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Talisman](https://github.com/SpectralPack/Talisman) mod.
+
+```lua
+--- Thank you to Ruby
+
+-- In `calculate`
+return {
+    echips = 10, -- Exponential chips
+    emult = 10, -- Exponential mult
+    eechips = 10, -- Tetrational chips
+    eemult = 10, -- Tetrational chips
+    eeechips = 10, -- Pentational chips
+    eeemult = 10, -- Pentational chips
+    hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips
+    hypermult = {4, 100} -- Hyperoperational mult. Equivalent to {4}100 mult
+}
+```
 
 ### How do I end the shop?
 
@@ -982,15 +1347,59 @@ Work in progress.
 
 ### How do I add my own custom colors to use in descriptions?
 
-Work in progress.
+```lua
+--- Credits to Eremel
+
+-- In your code
+loc_colour()
+G.ARGS.LOC_COLOURS.modprefix_your_colour_name = HEX('FFFFFF')
+```
+
+Then you will be able to use `{C:modprefix_your_colour_name}text` in your description text.
 
 ### How do I change the name or description of a card dynamically?
 
-Work in progress.
+```lua
+-- Change name and description when card is eternal
+loc_vars = function(self, info_queue, card)
+    return { key = card.ability.eternal and "j_modprefix_key_alt" or nil }
+end,
+```
+
+In your localization file (like `en-us.lua`):
+
+```lua
+return {
+    descriptions = {
+        Joker = {
+            j_modprefix_key = {
+                name = "Original name",
+                text = {
+                    "Original Description"
+                },
+            },
+            j_modprefix_key_alt = { -- It will change both so you have to repeat the original text if you want to keep it.
+                name = "Alt name",
+                text = {
+                    "Alt Description"
+                },
+            }
+        }
+    }
+}
+```
 
 ### How do I add text to the description of my card that updates in real time?
 
-Work in progress.
+```lua
+-- Updates with the timer in `G.TIMERS.REAL`
+loc_vars = function(self, info_queue, card)
+    main_start = {
+        { n = G.UIT.T, config = { ref_table = G.TIMERS, ref_value = "REAL", colour = G.C.UI.TEXT_DARK, scale = 0.32 } },
+    }
+    return { main_start = main_start }
+end
+```
 
 ### How do I animate my card?
 
@@ -998,7 +1407,9 @@ Work in progress.
 
 ### How do I add a custom tooltip to the side of the description?
 
-Work in progress.
+[`info_queue` in `loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars)
+
+For decks use the [`{T:}` tag](https://github.com/Steamodded/smods/wiki/Text-Styling#text-hover-tooltip-modifier-t).
 
 ### How do I add a button to my card?
 
@@ -1022,7 +1433,13 @@ Work in progress.
 
 ### How and what can I save in an game object?
 
-Work in progress.
+Lua allows you to practically save any value to any table, but Balatro might not save it in your savefile when you reload the run.
+
+In particular for most cases, you want to save any values to `card.ability` for local storage or `G.GAME` for global storage.
+
+> [!WARNING]
+> Don't save functions or cyclic tables to the aforementioned places or it might cause crashes or unexpected behaviours.
+> Cyclic tables include any objects such as cards. Consider saving the key or index instead.
 
 ### How can I save something in the player's profile?
 
@@ -1030,29 +1447,103 @@ Work in progress.
 
 ### How can I make my own context?
 
-Work in progress.
+```lua
+SMODS.calculate_context { modprefix_context_name = true, modprefix_arg = args } -- You can add as many args as you want
+
+-- Example:
+-- Context when a card in the Joker area is flipped
+local card_flip_ref = Card.flip
+function Card:flip()
+    card_flip_ref(self)
+    if G.jokers and self.area == G.jokers then
+        SMODS.calculate_context({
+            modprefix_card_flipped = self,
+            modprefix_facedown = card.facing == "back"
+        })
+    end
+end
+```
 
 ### How do I get if another mod is loaded?
 
-Work in progress.
+```lua
+-- Find if VanillaRemade is loaded
+if next(SMODS.find_mod("VanillaRemade")) then -- Uses the mod's ID
+    -- do code
+end
+```
 
 ## Troubleshooting
 
 ### Why does my card crash when I change its `config`?
 
-Work in progress.
+If you change the config in your code, your Joker will keep its old values if you continue an existing run.
+
+To solve this you can either:
+
+- Spawn a new instance of the Joker
+- Start a new run. This is recommended as other changes might lead to unexpected behaviour in your game.
 
 ### Why does my card crash when I hover over it in the collection?
 
-Work in progress.
+You likely did something wrong in `loc_vars`.
+
+Most probably you are trying to check if an area that only exists in a run exists, like a card area.
+
+```lua
+-- This will crash in the collection because G.jokers doesn't exist
+loc_vars = function(self, info_queue, card)
+    return { vars = { #G.jokers.cards } }
+end
+
+-- Do this instead:
+loc_vars = function(self, info_queue, card)
+    return { vars = { G.jokers and #G.jokers.cards or 0 } }
+end
+```
 
 ### Why does `context.end_of_round` trigger so much?
 
-Work in progress.
+`context.end_of_round` is called alongside `context.individual` and `context.repetition` to do effects on playing cards.
+
+If you want to only do a single main effect do:
+
+```lua
+if context.end_of_round and context.main_eval and context.game_over == false then -- The game_over check is optional but recommended
+    -- code here
+end
+```
 
 ### Why does the animation play before scoring when the context I put it in occurs later?
 
-Work in progress.
+Scoring in the game is calculated all at once before the hand is played, so anything you do in a scoring context will happen beforfe the animations play.
+
+If you want it to happen at the time when the animations play [use Events](https://github.com/Steamodded/smods/wiki/Guide-%E2%80%90-Event-Manager).
+
+```lua
+-- In calculate
+if context.after then -- After scoring
+    print("This will happen before the scoring animations")
+    G.E_MANAGER:add_event(Event({
+        func = function()
+            print("This will happen alongside the scoring animations")
+            return true
+        end
+    }))
+
+    return {
+        message = "Calculation returns will play their animations during scoring properly"
+        func = function()
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    print("This will happen alongside the scoring animations but after the above message")
+                    return true
+                end
+            }))
+        end
+    }
+end
+```
 
 ### Why do I get `attempt to compare number with table` when Talisman is installed?
 
