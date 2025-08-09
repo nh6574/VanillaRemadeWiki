@@ -331,7 +331,7 @@ end,
 
 If we play a 10 we can see what we did wrong: the key for the rank 10 is `'10'` and not `'Ten'`
 
-![debug print](/assets/Q2Debug.png)
+![debug print](assets/Q2Debug.png)
 
 > [!IMPORTANT]
 > When changing the object's `config` (or anything that would for example be saved to `card.ability`) it's important to get a new instance of the object if possible. Although it is always recommended to start a new run instead.
