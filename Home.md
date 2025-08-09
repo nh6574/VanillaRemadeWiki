@@ -1145,6 +1145,14 @@ local mod = tag.config.tag.original_mod
 local is_vremade = mod.id == "VanillaRemade"
 ```
 
+### How do i get the current play/discard/highlight limit?
+
+```lua
+local play_limit = G.GAME.starting_params.play_limit
+local play_limit = G.GAME.starting_params.discard_limit
+local play_limit = G.hand.config.highlighted_limit
+```
+
 ## Miscellaneous effects
 
 ### How do I give \[X\] type of card/object to the player?
