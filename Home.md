@@ -311,6 +311,9 @@ This allows you to, among other things: spawn objects (such as Jokers, Tags, etc
 
 Apart form that there's no traditional debugger to help with development. If you make a change in code, you need to restart the whole game for it to take effect (barring some exceptions thanks to DebugPlus features).
 
+> [!TIP]
+> You can restart the game faster by pressing `alt + f5` or holding `m`.
+
 It is also recommended then to add debug prints if your code isn't working as intended.
 
 Let's say you want to find out why this code is not working.
