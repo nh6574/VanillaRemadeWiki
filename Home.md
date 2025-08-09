@@ -416,6 +416,31 @@ for _, file in ipairs(jokers_src) do
 end
 ```
 
+### How do I make a texture pack?
+
+For playing card textures (collabs) check out [`SMODS.DeckSkin`](https://github.com/Steamodded/smods/wiki/SMODS.DeckSkin). You can find [an example here](https://github.com/Steamodded/examples/tree/master/Mods/DeckSkinTemplate).
+
+For other kinds of textures use the [Malverk](https://github.com/Eremel/Malverk/tree/main) mod.
+
+### How do I change localization?
+
+Simply make a localization file and use the keys for what you want to localize.
+
+```lua
+return {
+    descriptions = {
+        Joker = {
+            j_joker = {
+                name = "Jimbo",
+                text = {
+                    "+#1# funny crazy mult"
+                },
+            }
+        }
+    }
+}
+```
+
 ## Terminology
 
 ### What's a `front`/`center`/`back`?
@@ -1095,6 +1120,30 @@ local is_faceup = card.facing == "front"
 local is_facedown = card.facing == "back"
 ```
 
+### How do I check if a card/object is from a mod?
+
+```lua
+-- For Centers
+local mod = card.config.center.original_mod
+
+-- For Blinds
+local blind = G.GAME.blind -- current blind
+local mod = blind.config.blind.original_mod
+
+-- For Decks
+local deck = G.GAME.selected_back -- current deck
+local mod = deck.effect.center.original_mod
+
+-- For Stakes
+local mod = G.P_CENTER_POOLS.Stake[G.GAME.stake].original_mod
+
+-- For Tags
+local mod = tag.config.tag.original_mod
+
+-- You can check the mod id
+local is_vremade = mod.id == "VanillaRemade"
+```
+
 ## Miscellaneous effects
 
 ### How do I give \[X\] type of card/object to the player?
@@ -1333,15 +1382,19 @@ return {
 
 ### How do I end the shop?
 
-Work in progress.
+```lua
+G.FUNCS.toggle_shop()
+```
 
 ### How do I cash out immediately?
 
-Work in progress.
+```lua
+G.FUNCS.cash_out({config = {}})
+```
 
 ### How do I play music or a sound?
 
-Work in progress.
+[Check the SMODS docs](https://github.com/Steamodded/smods/wiki/SMODS.Sound#playing-sounds).
 
 ## UI & Visual effects
 
@@ -1401,7 +1454,7 @@ loc_vars = function(self, info_queue, card)
 end
 ```
 
-### How do I animate my card?
+### How do I animate my card? [TBD]
 
 Work in progress.
 
@@ -1411,7 +1464,7 @@ Work in progress.
 
 For decks use the [`{T:}` tag](https://github.com/Steamodded/smods/wiki/Text-Styling#text-hover-tooltip-modifier-t).
 
-### How do I add a button to my card?
+### How do I add a button to my card? [TBD]
 
 Work in progress.
 
@@ -1419,13 +1472,22 @@ Work in progress.
 
 ### How do I add a custom icon?
 
+Make an [`SMODS.Atlas`]() with key `'modicon'`.
+
+```lua
+SMODS.Atlas({
+    key = "modicon",
+    path = "icon.png",
+    px = 32,
+    py = 32
+})
+```
+
+### How do I add a config page? [TBD]
+
 Work in progress.
 
-### How do I add a config page?
-
-Work in progress.
-
-### How do I edit the main menu?
+### How do I edit the main menu? [TBD]
 
 Work in progress.
 
@@ -1441,7 +1503,7 @@ In particular for most cases, you want to save any values to `card.ability` for 
 > Don't save functions or cyclic tables to the aforementioned places or it might cause crashes or unexpected behaviours.
 > Cyclic tables include any objects such as cards. Consider saving the key or index instead.
 
-### How can I save something in the player's profile?
+### How can I save something in the player's profile? [TBD]
 
 Work in progress.
 
