@@ -252,6 +252,8 @@ effect.extra = {func = function() SMODS.calculate_context({vremade_card_retrigge
 match_indent = true
 ```
 
+Read the [Lovely documentation](https://github.com/ethangreen-dev/lovely-injector?tab=readme-ov-file#patches) for more info.
+
 ### What's a hook?
 
 A hook is a less intrusive way to add extra functionality to functions than patches. This is recommended in most situations.
