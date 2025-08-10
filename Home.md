@@ -173,7 +173,7 @@ If you really don't want to learn, try [Joker Forge](https://jokerforge.jaydchw.
 
 A Lovely patch allows you to add code in the middle of the original game's code.
 
-Let's say you want to make an effect that prevents the deck from being shuffle before a Blind while a specific Joker is held.
+Let's say you want to make an effect that prevents the deck from being shuffled before a Blind while a specific Joker is held.
 This is done in this part of the code:
 
 ```lua
