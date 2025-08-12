@@ -427,7 +427,7 @@ For playing card textures (collabs) check out [`SMODS.DeckSkin`](https://github.
 
 For other kinds of textures use the [Malverk](https://github.com/Eremel/Malverk/tree/main) mod.
 
-### How do I change localization?
+### How do I change localization for vanilla/other mods' objects?
 
 Simply make a localization file and use the keys for what you want to localize.
 
