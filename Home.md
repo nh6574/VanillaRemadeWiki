@@ -1212,14 +1212,29 @@ add_tag(Tag(selected_tag, false, 'Small'))
 #### Voucher
 
 ```lua
+--- Credits to Eremel
 local voucher_pool = get_current_pool('Voucher')
 local selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed')
 local it = 1
 while selected_voucher == 'UNAVAILABLE' do
     it = it + 1
-    selected_voucher = pseudorandom_element(voucher_pool, pseudoseed('modprefix_seed_resample'..it))
+    selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed' .. it)
 end
-selected_voucher:redeem()
+local voucher_card = SMODS.create_card({ area = G.play, key = selected_voucher })
+voucher_card:start_materialize()
+voucher_card.cost = 0
+G.play:emplace(voucher_card)
+delay(0.8)
+voucher_card:redeem()
+
+G.E_MANAGER:add_event(Event({
+    trigger = 'after',
+    delay = 0.5,
+    func = function()
+        voucher_card:start_dissolve()
+        return true
+    end
+}))
 ```
 
 ### How do I give a card a random Edition/Enhancement/Seal?
