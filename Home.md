@@ -1064,7 +1064,12 @@ local current_requirements = G.GAME.blind.chips
 
 ```lua
 -- Only during scoring
-if hand_chips * mult > G.GAME.blind.chips then
+if SMODS.calculate_round_score() > G.GAME.blind.chips then
+    -- do code
+end
+
+-- Or in context.after
+if SMODS.last_hand_oneshot then
     -- do code
 end
 ```
@@ -1336,8 +1341,8 @@ G.GAME.chips = G.GAME.chips + 500
 ```lua
 -- During scoring
 -- Set Chips to 1 and adds 20 to mult
-hand_chips = 1
-mult = mult + 20
+hand_chips = mod_chips(1)
+mult = mod_mult(mult + 20)
 ```
 
 ### How do I destroy cards?
@@ -1424,6 +1429,14 @@ G.FUNCS.cash_out({config = {}})
 ### How do I play music or a sound?
 
 [Check the SMODS docs](https://github.com/Steamodded/smods/wiki/SMODS.Sound#playing-sounds).
+
+### How do I use SMODS Scaling Manipulation/Detection?
+
+SMODS has an optional opt-in feature to scale cards and manipulate their scaling.
+
+For how to use and make your code compliant, check the [relevant documentation in the SMODS 0827 release notes](https://github.com/Steamodded/smods/discussions/919).
+
+In VanillaRemade this feature is not used to not complicate simple scaling code. If you want to know how vanilla cards handle it, check the [lovely patches on the SMODS repository](https://github.com/Steamodded/smods/blob/main/lovely/scaling.toml) or your Lovely dump folder.
 
 ## UI & Visual effects
 
