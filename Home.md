@@ -922,7 +922,7 @@ local random_number_from_min_to_max = pseudorandom("modprefix_another_seed", 4, 
 
 local list = { "hi", 3, "bye" }
 local random_element, index_in_the_list = pseudorandom_element(list, "modprefix_seed") -- You can also ignore the index
-pseudoshuffle(list, pseudoseed("modprefix_shuffle")) -- You can also shuffle the list
+pseudoshuffle(list, "modprefix_shuffle") -- You can also shuffle the list
 ```
 
 ### How do I get the cards in an area?
@@ -1209,7 +1209,7 @@ local selected_tag = pseudorandom_element(tag_pool, 'modprefix_seed')
 local it = 1
 while selected_tag == 'UNAVAILABLE' do
     it = it + 1
-    selected_tag = pseudorandom_element(tag_pool, pseudoseed('modprefix_seed_resample'..it))
+    selected_tag = pseudorandom_element(tag_pool, 'modprefix_seed_resample'..it)
 end
 add_tag(Tag(selected_tag, false, 'Small'))
 ```
