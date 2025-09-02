@@ -637,7 +637,7 @@ Enables retriggering jokers using `context.retrigger_joker_check`. Example:
 
 ```lua
 -- Retrigger all common Jokers
-if context.retrigger_joker_check and context.other_card.config.rarity == 1 then
+if context.retrigger_joker_check and context.other_card:is_rarity(1) then
     return { repetitions = 1 }
 end
 ```
