@@ -1396,7 +1396,7 @@ return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as man
 
 ### How do I add exponential mult/chips?
 
-SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Talisman](https://github.com/SpectralPack/Talisman) mod.
+SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Cryptlib](https://github.com/SpectralPack/Cryptlib) and [Talisman](https://github.com/SpectralPack/Talisman) mods.
 
 ```lua
 --- Thank you to Ruby
@@ -1405,12 +1405,12 @@ SMODS doesn't support exponential or higher operations of score by default, this
 return {
     echips = 10, -- Exponential chips
     emult = 10, -- Exponential mult
-    eechips = 10, -- Tetrational chips
-    eemult = 10, -- Tetrational chips
-    eeechips = 10, -- Pentational chips
-    eeemult = 10, -- Pentational chips
-    hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips
-    hypermult = {4, 100} -- Hyperoperational mult. Equivalent to {4}100 mult
+    eechips = 10, -- Tetrational chips (Talisman only)
+    eemult = 10, -- Tetrational chips (Talisman only)
+    eeechips = 10, -- Pentational chips (Talisman only)
+    eeemult = 10, -- Pentational chips (Talisman only)
+    hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips (Talisman only)
+    hypermult = {4, 100} -- Hyperoperational mult. Equivalent to {4}100 mult (Talisman only)
 }
 ```
 
