@@ -731,7 +731,7 @@ end
 If you want to, for example, prevent a Joker being spawned by Judgement you can do:
 
 ```lua
--- Prevent the object from being spawned by any random means
+-- Prevent the object from being spawned by Judgement specifically
 in_pool = function(self, args)
     return not args or args.source ~= "jud"
 end
