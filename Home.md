@@ -1620,7 +1620,7 @@ end
 
 ### Why does the animation play before scoring when the context I put it in occurs later?
 
-Scoring in the game is calculated all at once before the hand is played, so anything you do in a scoring context will happen beforfe the animations play.
+Scoring in the game is calculated all at once before the hand is played, so anything you do in a scoring context will happen before the animations play.
 
 If you want it to happen at the time when the animations play [use Events](https://github.com/Steamodded/smods/wiki/Guide-%E2%80%90-Event-Manager).
 
