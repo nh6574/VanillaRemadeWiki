@@ -1171,7 +1171,7 @@ local play_limit = G.hand.config.highlighted_limit
 
 ```lua
 SMODS.add_card{ -- For a random one
-    set = "Joker" -- See `What's a `pool`/`set`?`
+    set = "Joker" -- See `What's a pool/set?`
     key_append = "modprefix_append" -- Optional, key for randomization/pool checking
 }
 SMODS.add_card{ key = "c_fool" } -- For a specific one
@@ -1193,7 +1193,7 @@ SMODS.add_card{ -- Random unenhanced Ace
 }
 
 SMODS.add_card{ -- Random enhanced 3 of Clubs
-    set = "Base"
+    set = "Enhanced"
     key_append = "modprefix_append", -- Optional, key for randomization/pool checking
     rank = "3",
     suit = "Clubs"
