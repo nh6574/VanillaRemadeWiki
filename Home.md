@@ -911,8 +911,6 @@ end
 
 ### How do I get a random number/element?
 
-If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it instead](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using `SMODS.pseudorandom_probability`.
-
 ```lua
 -- For these examples we use a string to set the seed, the exact value is not important as long as its unique
 -- It's recommended for it to include the mod prefix. You can also append G.GAME.round_resets.ante to make the seed unique each ante, for example
@@ -924,6 +922,9 @@ local list = { "hi", 3, "bye" }
 local random_element, index_in_the_list = pseudorandom_element(list, "modprefix_seed") -- You can also ignore the index
 pseudoshuffle(list, "modprefix_shuffle") -- You can also shuffle the list
 ```
+
+> [!Important]
+> If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it instead](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using `SMODS.pseudorandom_probability`.
 
 ### How do I get the cards in an area?
 
