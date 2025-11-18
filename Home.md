@@ -938,7 +938,7 @@ If you want to iterate through all the cards in the area you would do something 
 for index, consumable in ipairs(G.consumeables.cards) do
     -- your code
 end
-````
+```
 
 Keep in mind, `G.playing_cards` is not a `CardArea` so to get the length and iterate we would just do:
 
@@ -1160,19 +1160,19 @@ local is_vremade = mod.id == "VanillaRemade"
 
 ```lua
 local play_limit = G.GAME.starting_params.play_limit
-local play_limit = G.GAME.starting_params.discard_limit
-local play_limit = G.hand.config.highlighted_limit
+local discard_limit = G.GAME.starting_params.discard_limit
+local highlight_selection_limit = G.hand.config.highlighted_limit
 ```
 
 ## Miscellaneous effects
 
 ### How do I give \[X\] type of card/object to the player?
 
-#### Jokers or Consumables
+#### Jokers/Consumables/Custom Pool
 
 ```lua
 SMODS.add_card{ -- For a random one
-    set = "Joker" -- See `What's a pool/set?`
+    set = "Joker" -- You can use a custom pool/ObjectType. See `What's a pool/set?`
     key_append = "modprefix_append" -- Optional, key for randomization/pool checking
 }
 SMODS.add_card{ key = "c_fool" } -- For a specific one
@@ -1212,13 +1212,13 @@ while selected_tag == 'UNAVAILABLE' do
     it = it + 1
     selected_tag = pseudorandom_element(tag_pool, 'modprefix_seed_resample'..it)
 end
-add_tag(Tag(selected_tag, false, 'Small'))
+add_tag(Tag(selected_tag, false, 'Small')) -- Ignore the previous code and just use a key for a prefined voucher
 ```
 
 #### Voucher
 
 ```lua
---- Credits to Eremel
+--- Credits to Eremel <3
 local voucher_pool = get_current_pool('Voucher')
 local selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed')
 local it = 1
@@ -1226,7 +1226,7 @@ while selected_voucher == 'UNAVAILABLE' do
     it = it + 1
     selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed' .. it)
 end
-local voucher_card = SMODS.create_card({ area = G.play, key = selected_voucher })
+local voucher_card = SMODS.create_card({ area = G.play, key = selected_voucher }) -- Ignore the previous code and just use a key for a prefined voucher
 voucher_card:start_materialize()
 voucher_card.cost = 0
 G.play:emplace(voucher_card)
@@ -1348,9 +1348,6 @@ mult = mod_mult(mult + 20)
 
 ### How do I destroy cards?
 
-> [!WARNING]
-> During scoring or while discarding playing cards use Method 1 or phantom cards might appear.
-
 ```lua
 --- Method 1
 --- For playing cards while scoring/discarding
@@ -1400,7 +1397,7 @@ return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as man
 SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Cryptlib](https://github.com/SpectralPack/Cryptlib) and [Talisman](https://github.com/SpectralPack/Talisman) mods.
 
 ```lua
---- Thank you to Ruby
+--- Thank you to Ruby <3
 
 -- In `calculate`
 return {
@@ -1444,7 +1441,7 @@ In VanillaRemade this feature is not used to not complicate simple scaling code.
 ### How do I add my own custom colors to use in descriptions?
 
 ```lua
---- Credits to Eremel
+--- Credits to Eremel <3
 
 -- In your code
 loc_colour()
@@ -1515,7 +1512,7 @@ Work in progress.
 
 ### How do I add a custom icon?
 
-Make an [`SMODS.Atlas`]() with key `'modicon'`.
+Make an [`SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas) with key `'modicon'`.
 
 ```lua
 SMODS.Atlas({
@@ -1546,9 +1543,13 @@ In particular for most cases, you want to save any values to `card.ability` for 
 > Don't save functions or cyclic tables to the aforementioned places or it might cause crashes or unexpected behaviours.
 > Cyclic tables include any objects such as cards. Consider saving the key or index instead.
 
-### How can I save something in the player's profile? [TBD]
+### How can I save something in the player's profile?
 
-Work in progress.
+```lua
+G.PROFILES[G.SETTINGS.profile].modprefix_key = value
+```
+
+See the previous question for details.
 
 ### How can I make my own context?
 
