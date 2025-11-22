@@ -1212,7 +1212,7 @@ while selected_tag == 'UNAVAILABLE' do
     it = it + 1
     selected_tag = pseudorandom_element(tag_pool, 'modprefix_seed_resample'..it)
 end
-add_tag(Tag(selected_tag, false, 'Small')) -- Ignore the previous code and just use a key for a prefined voucher
+add_tag(Tag(selected_tag, false, 'Small')) -- Ignore the previous code and just use a key for a prefined tag
 ```
 
 #### Voucher
