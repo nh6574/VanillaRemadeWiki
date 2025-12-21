@@ -1369,7 +1369,7 @@ SMODS.destroy_cards(G.jokers.cards) -- Can take multiple cards
 ### How do I level up a hand?
 
 ```lua
-SMODS.smart_level_up_hand(card, "Three of a Kind", nil, 3) -- Level up Three of a Kind by 3
+SMODS.upgrade_poker_hands({hands = {"Three of a Kind"}, level_up = 3, from = card}) -- Level up Three of a Kind by 3
 ```
 
 ### How do I copy multiple cards at once?
