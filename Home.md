@@ -190,6 +190,8 @@ G.E_MANAGER:add_event(Event({
         return true
     end
 }))
+
+-- (Keep in mind that in a real application you would probably need to patch the shuffle after a cash out as well).
 ```
 
 Because this is in a middle of an event, it's hard to reach the code in other ways such as a hook.
