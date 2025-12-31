@@ -1806,3 +1806,6 @@ to_big = to_big or function(x) return x end
 ```
 
 The values changed by Talisman include scored chips, scored mult, total score, dollars, poker hand levels and others.
+
+> [!IMPORTANT]
+> Alternatively, encourage your players to switch to [Amulet](https://github.com/frostice482/amulet/tree/main) which solves this problem.
