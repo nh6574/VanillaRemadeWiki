@@ -1250,7 +1250,7 @@ G.E_MANAGER:add_event(Event({
 #### Edition
 
 ```lua
-local random_edition = SMODS.poll_edition { key = "modprefix_seed", guaranteed = true, no_neg = true } -- Will guarantee a random non-negative edition. See `SMODS.Edition` docs for more details.
+local random_edition = SMODS.poll_edition { key = "modprefix_seed", guaranteed = true, no_negative = true } -- Will guarantee a random non-negative edition. See `SMODS.Edition` docs for more details.
 
 SMODS.add_card { set = "Joker", edition = random_edition } -- Add a card with an edition
 card:set_edition(random_edition) -- Set an edition on an existing card
