@@ -1542,7 +1542,7 @@ local function create_my_button_ui(card)
                   n = G.UIT.T,
                   config = {
                     text = "My button",
-                    colour = G.C.UI.TEXT_LIGHT -- color of the button text,
+                    colour = G.C.UI.TEXT_LIGHT, -- color of the button text
                     scale = 0.4,
                   }
                 },
