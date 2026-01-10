@@ -1618,7 +1618,7 @@ Finally, we need to decide when and where this button will exist on any card, yo
 
 ```lua
 local highlight_ref = Card.highlight
-function Card.highlight(self, is_higlighted)
+function Card.highlight(self, is_highlighted)
   if is_highlighted and self.ability.set == "Joker" and self.area == G.jokers then
     self.children.modprefix_my_button = create_my_button_ui(self)
   elseif self.children.modprefix_my_button then
@@ -1626,7 +1626,7 @@ function Card.highlight(self, is_higlighted)
     self.children.modprefix_my_button = nil
   end
 
-  return highlight_ref(self, is_higlighted)
+  return highlight_ref(self, is_highlighted)
 end
 ```
 
