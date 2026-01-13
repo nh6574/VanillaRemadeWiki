@@ -1677,7 +1677,9 @@ See the previous question for details.
 
 ```lua
 SMODS.calculate_context { modprefix_context_name = true, modprefix_arg = args } -- You can add as many args as you want
+```
 
+```lua
 -- Example:
 -- Context when a card in the Joker area is flipped
 local card_flip_ref = Card.flip
