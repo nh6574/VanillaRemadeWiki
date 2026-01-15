@@ -1229,11 +1229,12 @@ while selected_voucher == 'UNAVAILABLE' do
     selected_voucher = pseudorandom_element(voucher_pool, 'modprefix_seed' .. it)
 end
 local voucher_card = SMODS.create_card({ area = G.play, key = selected_voucher }) -- Ignore the previous code and just use a key for a prefined voucher
+local prev_state = G.STATE
 voucher_card:start_materialize()
 voucher_card.cost = 0
 G.play:emplace(voucher_card)
 delay(0.8)
-voucher_card:redeem()
+G.FUNCS.use_card({ config = { ref_table = voucher_card } })
 
 G.E_MANAGER:add_event(Event({
     trigger = 'after',
