@@ -564,14 +564,8 @@ The way to read this documentation is as follows:
 
 ```lua
 if context.joker_main then
-{
-    cardarea = G.jokers,
-    full_hand = G.play.cards,
-    scoring_hand = scoring_hand,
-    scoring_name = text,
-    poker_hands = poker_hands,
-    joker_main = true,
-}
+context.cardarea, context.full_hand, context.scoring_hand, context.scoring_name, context.poker_hands
+context.joker_main -- boolean value to flag this context, always TRUE
 ```
 
 Means that you can do this in `calculate`:
