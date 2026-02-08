@@ -1491,15 +1491,52 @@ loc_vars = function(self, info_queue, card)
 end
 ```
 
-### How do I animate my card? [TBD]
+### How do I animate my card?
 
-Work in progress.
+Use an [animated atlas](https://github.com/Steamodded/smods/wiki/SMODS.Atlas).
+
+```lua
+-- Example
+SMODS.Atlas {
+    key = "animated_joker",
+    path = "animated_joker.png",
+    px = 71,
+    py = 95
+    atlas_table = "ANIMATION_ATLAS",
+    frames = 21
+}
+```
 
 ### How do I add a custom tooltip to the side of the description?
 
 [`info_queue` in `loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars)
 
-For decks use the [`{T:}` tag](https://github.com/Steamodded/smods/wiki/Text-Styling#text-hover-tooltip-modifier-t).
+If you want to add a custom one you can do:
+
+```lua
+loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = { set = "Other", key = "modprefix_key", vars = { "put any vars here" } }
+end,
+```
+
+In your localization file (like `en-us.lua`):
+
+```lua
+return {
+    descriptions = {
+        Other = {
+            modprefix_key = {
+                name = "Tooltip Title",
+                text = {
+                    "Description"
+                },
+            },
+        }
+    }
+}
+```
+
+For decks use the [`{T:}` tag](https://github.com/Steamodded/smods/wiki/Text-Styling#text-hover-tooltip-modifier-t). Note that non-center keys (like above) don't work.
 
 ### How do I add a button to my card?
 
