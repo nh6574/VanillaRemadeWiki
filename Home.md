@@ -313,7 +313,7 @@ end
 [DebugPlus](https://github.com/WilsontheWolf/DebugPlus) is highly recommended for mod development. It enables the game's debug menu while adding a bunch of extra functionality.
 This allows you to, among other things: spawn objects (such as Jokers, Tags, etc.); change the boss blind; apply editions, enhancements, seals, etc.; modify game variables like money, hands remaining, etc. or run lua code and see debug prints directly in-game using the console.
 
-Apart form that there's no traditional debugger to help with development. If you make a change in code, you need to restart the whole game for it to take effect (barring some exceptions thanks to DebugPlus features).
+Apart from that, there's no traditional debugger to help with development. If you make a change in code, you need to restart the whole game for it to take effect (barring some exceptions thanks to DebugPlus features).
 
 > [!TIP]
 > You can restart the game faster by pressing `alt + f5` or holding `m`.
