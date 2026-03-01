@@ -417,7 +417,7 @@ Here's a snippet to load all files from a subfolder:
 -- In your main file.
 -- This will load any file in the `jokers/` subfolder
 -- Note: Load order is not guaranteed
-local jokers_src = NFS.getDirectoryItems(SMODS.current_mod.path .. "jokers")
+local jokers_src = SMODS.NFS.getDirectoryItems(SMODS.current_mod.path .. "jokers")
 for _, file in ipairs(jokers_src) do
     assert(SMODS.load_file("jokers/" .. file))()
 end
@@ -870,6 +870,8 @@ local key = G.P_CENTER_POOLS.Stake[G.GAME.stake].key
 -- For Tags
 local key = tag.config.tag.key
 ```
+
+You can get a list of vanilla keys on the [Joker Forge website](https://jokerforge.jaydchw.com/keys).
 
 ### How do I get if the player has a certain card?
 
@@ -1677,13 +1679,105 @@ SMODS.Atlas({
 })
 ```
 
-### How do I add a config page? [TBD]
+### How do I add a config page?
 
-Work in progress.
+Set up a [config.lua](https://github.com/Steamodded/smods/wiki/The-Mod-Object#setting-up-your-config) and a [config tab](https://github.com/Steamodded/smods/wiki/The-Mod-Object#creating-a-config-tab).
 
-### How do I edit the main menu? [TBD]
+Basic example:
 
-Work in progress.
+```lua
+--- config.lua
+return {
+    activate_immersive_mode = true,
+    NEW_funky_mode = false
+}
+```
+
+```lua
+local my_config = SMODS.current_mod.config
+--- In another loaded file
+SMODS.current_mod.config_tab = function()
+    -- UI Wizardry
+    return {
+        n = G.UIT.ROOT,
+        config = { r = 0.1, minw = 8, align = "tm", padding = 0.2, colour = G.C.BLACK },
+        nodes = {
+            {
+                n = G.UIT.R,
+                config = { padding = 0.2 },
+                nodes = {
+                    {
+                        n = G.UIT.C,
+                        config = { align = "cr" },
+                        nodes = {
+                            {
+                                n = G.UIT.R,
+                                config = { align = "cr", padding = 0.01 },
+                                nodes = {
+                                    create_toggle({
+                                        label = "Activate Immesive Mode",
+                                        ref_table = my_config,
+                                        ref_value = 'activate_immersive_mode'
+                                    })
+                                }
+                            },
+                            {
+                                n = G.UIT.R,
+                                config = { align = "cr", padding = 0.01 },
+                                nodes = {
+                                    create_toggle({
+                                        label = "NEW Funky Mode",
+                                        ref_table = my_config,
+                                        ref_value = 'NEW_funky_mode'
+                                    })
+                                }
+                            },
+                        }
+                    },
+                }
+            },
+        }
+    }
+end
+```
+
+### How do I edit the main menu?
+
+To add a card to the title screen:
+
+```lua
+-- Adds Cavendish to the title screen
+SMODS.current_mod.menu_cards = function()
+    return { -- This takes any SMODS.create_card parameters
+        key = "j_cavendish",
+        remove_original = true -- This removes the vanilla Ace
+    }
+end
+```
+
+To edit the background swirl:
+
+```lua
+local game_main_menu_ref = Game.main_menu
+function Game:main_menu(...)
+    local ret = game_main_menu_ref(self, ...)
+
+    G.SPLASH_BACK:define_draw_steps({
+        {
+            shader = "splash", -- You can replace the shader altogether
+            send = {
+                { name = "time",       ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
+                { name = "vort_speed", val = 0.4 },
+                -- Here edit `ref_table` and `ref_value` with your own colors
+                { name = "colour_1",   ref_table = G.C,  ref_value = "CHIPS" },
+                { name = "colour_2",   ref_table = G.C,      ref_value = "BLACK" },
+            },
+        },
+    })
+
+    return ret
+end
+```
 
 ## Technical questions
 
