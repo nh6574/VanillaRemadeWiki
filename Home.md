@@ -208,13 +208,14 @@ priority = 0 # Priority for loading the file
 target = 'functions/state_events.lua' # The file you want to patch.
 pattern = '''
 G.deck:shuffle('nr'..G.GAME.round_resets.ante)
-''' # The line(s) you want to patch. In pattern patches it should be the whole line(s). Make sure it's unique in that file.
+''' # The line(s) you want to patch. In pattern patches it should be the whole line(s).
+# Make sure it's unique in that file. (Unless you want to patch multiple different lines, of course)
 position = "at" # Where you want to patch it: 'before', 'after' or 'at' (this last one replaces the whole pattern)
 payload = '''
 if not next(SMODS.find_card("j_modprefix_key")) then
     G.deck:shuffle('nr'..G.GAME.round_resets.ante)
 end
-''' # What code you want to replace it with.
+''' # What code you want to append/replace it with.
 match_indent = true
 ```
 
@@ -427,11 +428,11 @@ end
 
 For playing card textures (collabs) check out [`SMODS.DeckSkin`](https://github.com/Steamodded/smods/wiki/SMODS.DeckSkin). You can find [an example here](https://github.com/Steamodded/examples/tree/master/Mods/DeckSkinTemplate).
 
-For other kinds of textures use the [Malverk](https://github.com/Eremel/Malverk/tree/main) mod.
+For other kinds of textures use the [Malverk](https://github.com/Eremel/Malverk/tree/main) mod. You can find [an example here](https://github.com/Eremel/SpecTrans/)
 
 ### How do I change localization for vanilla/other mods' objects?
 
-Simply make a localization file and use the keys for what you want to localize.
+Simply [make a localization file](https://github.com/Steamodded/smods/wiki/Localization#localization-files-recommended) and use the keys for what you want to localize.
 
 ```lua
 return {
@@ -528,6 +529,7 @@ G.pack_cards -- Area for cards in a booster
 
 G.title_top -- Title screen area
 
+--- *Not* areas:
 G.playing_cards -- Not an area but a list of every playing card in the full deck regadless of area.
 "unscored" -- Value that `context.cardarea` can take in `calculate` to signify cards played but not scored (As G.play is used for scored cards). Added by SMODS
 ```
@@ -599,7 +601,7 @@ end
 
 if context.end_of_round and context.main_eval and context.game_over == false then
     -- Do something if you didn't lose at end of round.
-    -- (Main eval prevents calculations in context.individual and context.repetitions at end of round)
+    -- (main_eval prevents calculations in context.individual and context.repetitions at end of round)
 end
 ```
 
@@ -608,7 +610,7 @@ end
 
 ### What are optional features?
 
-Some SMODS features are opt-in to use, in most cases because of excessive calculations. If any mod installed enables any optional feature then it will be enabled for all other mods.
+[Some SMODS features](https://github.com/Steamodded/smods/wiki/Calculate-Functions#optional-features) are opt-in to use, in most cases because of excessive calculations. If any mod installed enables any optional feature then it will be enabled for all other mods.
 
 Here's how you would enable all current optional features.
 
@@ -1779,16 +1781,50 @@ function Game:main_menu(...)
 end
 ```
 
+### How do I make a new card area?
+
+```lua
+SMODS.current_mod.custom_card_areas = function(game) -- game is the same as G
+    game.modprefix_my_area = CardArea( -- Should be saved in G for it to be preserved between reloads
+        0, -- x coordinate
+        0, -- y coordinate
+        game.CARD_W * 4.95, -- width (this is the default for G.jokers)
+        game.CARD_H * 0.95, -- height (this is the default for G.jokers)
+        {
+            -- optional, but recommended configs:
+            card_limit = 1, -- card limit, doesn't actually affect the area unless checked manually
+            type = 'joker', -- area type, doesn't affect what type of cards can be in it, only how they're displayed and act
+            -- values can be `title`, `title_2`, `joker`, `shop`, `deck`, `hand`, `consumeable`, `voucher`, `play`, `discard`
+            highlight_limit = 1,
+            -- optional:
+            bg_colour = G.C.RED, -- background color
+            no_card_count = true, -- removes the card count ui for the area types that have it by default
+            align_buttons = true, -- aligns the buttons for cards like in the Joker/Consumable areas
+        }
+    )
+end
+
+-- You can then access this area in `G.modprefix_my_area`
+```
+
+### How do I move a card from an area to another?
+
+```lua
+card.area:remove_card(card)
+card:add_to_deck() -- does nothing if the card has been added to deck already
+new_area:emplace(card)
+```
+
 ## Technical questions
 
 ### How and what can I save in an game object?
 
 Lua allows you to practically save any value to any table, but Balatro might not save it in your savefile when you reload the run.
 
-In particular for most cases, you want to save any values to `card.ability` for local storage or `G.GAME` for global storage.
+In particular for most cases, you want to save any values to `card.ability`, `back.effect.config` or `blind.effect` for local storage or `G.GAME` for global storage.
 
 > [!WARNING]
-> Don't save functions or cyclic tables to the aforementioned places or it might cause crashes or unexpected behaviours.
+> Don't save functions or cyclic tables to the aforementioned places or it might cause crashes or unexpected behaviour.
 > Cyclic tables include any objects such as cards. Consider saving the key or index instead.
 
 ### How can I save something in the player's profile?
@@ -1844,7 +1880,7 @@ To solve this you can either:
 
 You likely did something wrong in `loc_vars`.
 
-Most probably you are trying to check if an area that only exists in a run exists, like a card area.
+Most probably you are trying to check for an some value that only exists in a run, like a card area.
 
 ```lua
 -- This will crash in the collection because G.jokers doesn't exist
