@@ -1,6 +1,7 @@
 # Balatro Mod Development FAQ
 
 This FAQ covers frequently used fields, functions and pieces of code for Balatro mod development that are either not covered by the Vanilla examples in the main repository or that might not be entirely clear from the implementation.
+A lot of text in here, so make sure you're not in 98% of Balatro players before continue.
 
 ## General Development
 
