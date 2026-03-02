@@ -17,6 +17,6 @@ jobs:
       with:
         # This token needs read and write access for contents on the repo with the wiki
         github_token: ${{ secrets.PAT }}
-        branch: ${{ github.ref }}
+        branch: master
         repository: nh6574/VanillaRemade.wiki
         force: true
