@@ -16,7 +16,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         # This token needs read and write access for contents on the repo with the wiki
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PAT }}
         branch: ${{ github.ref }}
         repository: nh6574/VanillaRemade.wiki
         force: true
