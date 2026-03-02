@@ -2,6 +2,9 @@
 
 This FAQ covers frequently used fields, functions and pieces of code for Balatro mod development that are either not covered by the Vanilla examples in the main repository or that might not be entirely clear from the implementation.
 
+> [!NOTE]
+> If you want to suggest any changes or add anything feel free to open an issue or PR [the Wiki repository](https://github.com/nh6574/VanillaRemadeWiki).
+
 ## General Development
 
 ### How do I start making Balatro mods?
