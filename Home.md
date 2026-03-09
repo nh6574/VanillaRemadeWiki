@@ -1784,6 +1784,20 @@ function Game:main_menu(...)
 end
 ```
 
+To edit the logo:
+
+```lua
+SMODS.Atlas{
+    -- These two lines tell it to replace the logo
+    key = "balatro",
+    prefix_config = { key = false }
+
+    path = "file.png",
+    px = 333,
+    py = 216,
+}
+```
+
 ### How do I make a new card area?
 
 ```lua
