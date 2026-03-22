@@ -1398,7 +1398,7 @@ return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as man
 
 ### How do I add exponential mult/chips?
 
-SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Cryptlib](https://github.com/SpectralPack/Cryptlib) and [Talisman](https://github.com/SpectralPack/Talisman) mods.
+SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Cryptlib](https://github.com/SpectralPack/Cryptlib) or [Amulet](https://github.com/frostice482/amulet/tree/main) mods.
 
 ```lua
 --- Thank you to Ruby <3
@@ -1407,12 +1407,12 @@ SMODS doesn't support exponential or higher operations of score by default, this
 return {
     echips = 10, -- Exponential chips
     emult = 10, -- Exponential mult
-    eechips = 10, -- Tetrational chips (Talisman only)
-    eemult = 10, -- Tetrational chips (Talisman only)
-    eeechips = 10, -- Pentational chips (Talisman only)
-    eeemult = 10, -- Pentational chips (Talisman only)
-    hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips (Talisman only)
-    hypermult = {4, 100} -- Hyperoperational mult. Equivalent to {4}100 mult (Talisman only)
+    eechips = 10, -- Tetrational chips (Amulet only)
+    eemult = 10, -- Tetrational chips (Amulet only)
+    eeechips = 10, -- Pentational chips (Amulet only)
+    eeemult = 10, -- Pentational chips (Amulet only)
+    hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips (Amulet only)
+    hypermult = {4, 100} -- Hyperoperational mult. Equivalent to {4}100 mult (Amulet only)
 }
 ```
 
@@ -1989,4 +1989,4 @@ to_big = to_big or function(x) return x end
 The values changed by Talisman include scored chips, scored mult, total score, dollars, poker hand levels and others.
 
 > [!IMPORTANT]
-> Alternatively, encourage your players to switch to [Amulet](https://github.com/frostice482/amulet/tree/main) which solves this problem.
+> Alternatively, encourage your players to switch to [Amulet](https://github.com/frostice482/amulet/tree/main) which solves this problem. It is a drop-in replacement for Talisman.
