@@ -1398,7 +1398,7 @@ return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as man
 
 ### How do I add exponential mult/chips?
 
-SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Cryptlib](https://github.com/SpectralPack/Cryptlib) or [Amulet](https://github.com/frostice482/amulet/tree/main) mods.
+SMODS doesn't support exponential or higher operations of score by default, this is implemented by the [Spectrallib](https://github.com/SpectralPack/Spectrallib) or [Amulet](https://github.com/frostice482/amulet/tree/main) mods.
 
 ```lua
 --- Thank you to Ruby <3
