@@ -594,7 +594,7 @@ end
 
 -- Here you want the main timing context check (individual) and the cardarea check to come before any other check
 -- to avoid problems with nil values and excessive calculations
-if context.individual and context.cardarea == G.play and context.other_card.get_id() == 2 then
+if context.individual and context.cardarea == G.play and context.other_card:get_id() == 2 then
     -- Do something for every 2 scored
 end
 
