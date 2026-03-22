@@ -1407,8 +1407,8 @@ SMODS doesn't support exponential or higher operations of score by default, this
 return {
     echips = 10, -- Exponential chips
     emult = 10, -- Exponential mult
-    eechips = 10, -- Tetrational chips (Amulet only)
-    eemult = 10, -- Tetrational chips (Amulet only)
+    eechips = 10, -- Tetrational chips
+    eemult = 10, -- Tetrational chips
     eeechips = 10, -- Pentational chips (Amulet only)
     eeemult = 10, -- Pentational chips (Amulet only)
     hyperchips = {4, 100} -- Hyperoperational chips. Equivalent to {4}100 chips (Amulet only)
