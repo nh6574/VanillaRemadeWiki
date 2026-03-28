@@ -156,6 +156,7 @@ That's it, now you're free to go and make your Balatro dreams come true. If you 
 
 - [SMODS' Your First Mod](https://github.com/Steamodded/smods/wiki/Your-First-Mod) - Collection of resources for developing your first mod.
 - [Programming in Lua](https://www.lua.org/pil/contents.html) - Recommended in the previous link but worth restating. You will need at least some basic Lua knowledge to develop mods.
+- [A Beginner's Guide to Making Balatro Mods](https://www.youtube.com/playlist?list=PLC52vBRlSqLtmTyhEvU8k9bKbYI_os7tM) - Video guides for very beginner modders by one of the contributors to the VanillaRemade repository
 - [SMODS Documentation](https://github.com/Steamodded/smods/wiki/API-Documentation) - Crucial resource when developing mods. Always have this on hand.
 - [VanillaRemade](https://github.com/nh6574/VanillaRemade) - You're here right now, hi! The main repository contains all vanilla objects recreated using SMODS to use as a reference. If you can think of a similar effect in the main game, just reference the relevant code.
 - [Lovely Documentation](https://github.com/ethangreen-dev/lovely-injector?tab=readme-ov-file#patches) - Documentation on Lovely patches.
