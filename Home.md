@@ -512,7 +512,7 @@ G.P_JOKER_RARITY_POOLS["modprefix_key"] -- For a custom rarity.
 
 Additionally, you can use the vanilla `get_current_pool` function to get all cards available in a pool respecting things such as `in_pool` and Showman-like abilities.
 
-See also [how to make your own sets](#how-do-i-create-a-poolset), [how to give a random object from a pool to the player](#how-do-i-give-x-type-of-card-to-the-player) or [how to apply a random modifier](#how-do-i-give-a-card-a-random-enhancementeditionsealetc).
+See also [how to make your own sets](#how-do-i-create-a-poolset), [how to give a random object from a pool to the player](#how-do-i-give-x-type-of-cardobject-to-the-player) or [how to apply a random modifier](#how-do-i-give-a-card-a-random-enhancementeditionsealetc).
 
 ### What are the different card areas called?
 
