@@ -175,7 +175,7 @@ If you really don't want to learn, try [Joker Forge](https://jokerforge.jaydchw.
 
 ### What's a patch?
 
-A Lovely patch allows you to add code in the middle of the original game's code.
+A Lovely patch allows you to add code in the middle of the original game's (or another mod's) code.
 
 Let's say you want to make an effect that prevents the deck from being shuffled before a Blind while a specific Joker is held.
 This is done in this part of the code:
@@ -263,7 +263,7 @@ Read the [Lovely documentation](https://github.com/ethangreen-dev/lovely-injecto
 
 ### What's a hook?
 
-A hook is a less intrusive way to add extra functionality to functions than patches. This is recommended in most situations.
+A hook is a less intrusive way to add extra functionality to functions than patches but with less flexibility.
 
 This is how a hook is structured:
 
@@ -273,7 +273,8 @@ This is how a hook is structured:
 local card_add_to_deck_ref = Card.add_to_deck
 -- Then we make another function with the same parameters as the original
 -- As a reminder, this is equivalent to `function Card.add_to_deck(self, from_debuff)`
-function Card:add_to_deck(from_debuff)
+-- The ... (ellipsis) grabs any extra arguments, it's good practice to catch them even if not in the original function
+function Card:add_to_deck(from_debuff, ...)
 
     -- Here we optionally add any code we want to run before the function
     print("Doing something before the original code")
@@ -281,12 +282,12 @@ function Card:add_to_deck(from_debuff)
     -- We then run the original and save its return to a variable
     -- (The arguments, in this case `self` and `from_debuff`, can be modified by your code if necessary)
     -- Keep in mind the original function could also have multiple return values.
-    local ret = card_add_to_deck_ref(self, from_debuff)
+    local ret = card_add_to_deck_ref(self, from_debuff, ...)
 
     -- Here we optionally add any code we want to run after the function
     print("Doing something after the original code")
 
-    -- Finally we return the original return.
+    -- Finally we return the original return. It's good practice to return the value even if the original function didn't
     -- (`ret` can be modified by your code if necessary)
     return ret
 end
@@ -298,8 +299,8 @@ For example, let's say we want to keep a global counter of every Joker added.
 
 ```lua
 local card_add_to_deck_ref = Card.add_to_deck
-function Card:add_to_deck(from_debuff)
-    local ret = card_add_to_deck_ref(self, from_debuff)
+function Card:add_to_deck(from_debuff, ...)
+    local ret = card_add_to_deck_ref(self, from_debuff, ...)
 
     if not from_debuff and -- If the card wasn't added by being undebuffed
         self.ability.set == "Joker" then -- and the card (`self` in this case) is a Joker
@@ -459,9 +460,9 @@ return {
 
 These terms are derived from the way the card sprites are set up.
 
-- The `front` of a card is the sprite for the playing card's rank and suit. This combination of rank and suit is called the `Front` as well in the code.
+- The `front` of a card is the sprite for the playing card's rank and suit. This combination of rank and suit is called the `front` as well in the code.
 - The `center` of a card is the the playing card's base sprite which changes with enhancements. This is also the main sprite for all other card types such as Jokers, Consumables, Vouchers, Boosters, etc. Because the center sprite shows what "ability" the card has, regardless of type, all these objects mentioned are considered `Centers`.
-  - Although this is not limited to the center sprite. Editions, Decks and some other objects are also considered Centers.
+  - Although this likely the origin of the terminology it is not limited to the center sprite. Editions and Decks are also considered Centers.
 - The `back` sprite of a card when its flipped face-down represents the deck it came from. This is why Decks are called `Backs` in the code.
 
 ### What's a `pool`/`set`?
@@ -593,7 +594,7 @@ if context.before then
     -- Do things before scoring
 end
 
--- Here you want the main timing context check (individual) and the cardarea check to come before any other check
+-- Here you want the main context check (individual) and the cardarea check to come before any other check
 -- to avoid problems with nil values and excessive calculations
 if context.individual and context.cardarea == G.play and context.other_card:get_id() == 2 then
     -- Do something for every 2 scored
@@ -623,6 +624,7 @@ SMODS.current_mod.optional_features = {
     retrigger_joker = true,
     post_trigger = true,
     quantum_enhancements = true,
+    object_weights = true,
     cardareas = {
         discard = true,
         deck = true
@@ -681,6 +683,12 @@ end
 > [!WARNING]
 > Don't use any function that checks for enhancements to avoid an infinite loop, such as `SMODS.has_enhancement` or `card.is_face`.
 > Also with this feature enabled you have to be careful with what you do outside strict context checks.
+
+#### object_weights
+
+Allows giving cards their own specific weight. Normally in vanilla most card types don't have a weight but instead are determined with the pool type (i.e. all Rare Jokers have the same probability, as do all Tarots, etc.).
+
+See [this page in the SMODS docs](https://github.com/Steamodded/smods/wiki/Weight-System) for more information.
 
 #### cardareas
 
@@ -797,7 +805,22 @@ SMODS.ObjectType({
 
 Then you can use `SMODS.add_card{ set = "modprefix_Food", area = G.jokers }` to get a random card from the pool.
 
+> [!NOTE]
+> SMODS introduces the food attribute which you might want to use instead with `SMODS.add_card{ set = "Joker", area = G.jokers, attributes = { 'food' } }`
+
 `SMODS.ConsumableType` is a subclass of `SMODS.ObjectType` to make new kinds of consumables. Check the [VanillaRemade implementation of vanilla consumables](https://github.com/nh6574/VanillaRemade/blob/3d719c5647c3e053c994ca8999dc19dfa3181925/src/tarots.lua#L3) for an example.
+
+Another similar feature is Attributes, which can be added to a cards. You can poll for multiple attributes, unlike with ObjectTypes.
+
+```lua
+SMODS.Joker {
+    key = "my_joker",
+    rarity = 1,
+    attributes = { 'mult', 'chips' } -- These are provided by SMODS
+}
+```
+
+Then you can use `SMODS.add_card{ set = "Joker", area = G.jokers, attributes = { 'mult', 'chips' } }` to get a random card with these attributes. See [the documentation](https://github.com/Steamodded/smods/wiki/SMODS.Attributes) for how to add your own and find which ones are provided by SMODS.
 
 See also [what's a `pool` or `set`](#whats-a-poolset) and [how to get a pool](#how-do-i-get-the-set-pool-or-key-of-a-specific-cardobject).
 
@@ -831,14 +854,16 @@ local is_stone = card.config.center.key == "m_stone" -- This doesn't respect qua
 
 -- Seal
 local has_seal = card.seal -- nil if it doesn't have one
+local has_seal_alt = card:get_seal() -- nil if it doesn't have one
 local is_red_seal = card.seal == "Red"
+local is_blue_seal = card:get_seal() == "Blue"
 
 -- Sticker
 local is_rental = card.ability.rental
 local is_perishable = card.ability.perishable
 local is_eternal = SMODS.is_eternal(card, trigger) -- Allows using `context.check_eternal`. `trigger` is the card or effect that runs the check
 local is_eternal_alt = card.ability.eternal -- Doesn't respect `context.check_eternal`
-local is_modded = card.ability.modprefix_key -- For modded stickers
+local has_modded_sticker = card.ability.modprefix_key -- For modded stickers
 ```
 
 ### How do I get the `set`, `pool` or `key` of a specific card/object?
@@ -858,6 +883,7 @@ local is_base_playing_card = card.ability.set == "Default"
 local is_enhanced_playing_card = card.ability.set == "Enhanced"
 
 local is_part_of_object_type = (card.config.center.pools or {}).modprefix_Food -- See "How do I create a `pool`/`set`?""
+local has_attribute = card:has_attribute('food')
 
 -- For Blinds
 local blind = G.GAME.blind -- current blind
@@ -923,12 +949,12 @@ local random_number = pseudorandom("modprefix_my_unique_seed") -- Random floatin
 local random_number_from_min_to_max = pseudorandom("modprefix_another_seed", 4, 34) -- Random number from min to max (inclusive). 4 to 34 in this case
 
 local list = { "hi", 3, "bye" }
-local random_element, index_in_the_list = pseudorandom_element(list, "modprefix_seed") -- You can also ignore the index
+local random_element, index_in_the_list = pseudorandom_element(list, "modprefix_seed".. G.GAME.round_resets.ante) -- You can also ignore the index
 pseudoshuffle(list, "modprefix_shuffle") -- You can also shuffle the list
 ```
 
 > [!Important]
-> If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it instead](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using `SMODS.pseudorandom_probability`.
+> If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using [`SMODS.pseudorandom_probability`](https://github.com/Steamodded/smods/wiki/Calculate-Functions#using-probability).
 
 ### How do I get the cards in an area?
 
@@ -1331,11 +1357,31 @@ G.STATE_COMPLETE = false
 
 ```lua
 -- Reduce blind's requirement by 50%
+-- In `calculate`
+return {
+    xblindsize = 0.5
+}
+```
+
+Or also:
+
+```lua
+-- Reduce blind's requirement by 50%
 G.GAME.blind.chips = math.floor(G.GAME.blind.chips - G.GAME.blind.chips * 0.5)
 G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
 ```
 
 ### How do I change the amount of chips scored in the middle of a Blind?
+
+```lua
+-- Adds 500 chips to the score
+-- In `calculate`
+return {
+    score = 5000
+}
+```
+
+Or also:
 
 ```lua
 -- Adds 500 chips to the score
@@ -1366,6 +1412,7 @@ end
 ```lua
 --- Method 2
 --- For anything else
+--- Can also be used for scoring/discarding
 SMODS.destroy_cards(card) -- Singular card
 
 SMODS.destroy_cards(G.jokers.cards) -- Can take multiple cards
@@ -1394,7 +1441,7 @@ end
 local left_ret = SMODS.blueprint_effect(card, G.jokers.cards[current_index - 1], context)
 local right_ret = SMODS.blueprint_effect(card, G.jokers.cards[current_index + 1], context)
 
-return SMODS.merge_effects { left_ret or {}, right_ret or {} } -- Can add as many calculate returns as you want
+return SMODS.merge_effects({ left_ret or {}, right_ret or {} }) -- Can add as many calculate returns as you want
 ```
 
 ### How do I add exponential mult/chips?
@@ -1437,7 +1484,7 @@ G.FUNCS.cash_out({config = {}})
 
 SMODS has an optional opt-in feature to scale cards and manipulate their scaling.
 
-For how to use and make your code compliant, check the [relevant documentation in the SMODS 0827 release notes](https://github.com/Steamodded/smods/discussions/919).
+For how to use and make your code compliant, check the [relevant documentation in the calculate page](https://github.com/Steamodded/smods/wiki/Calculate-Functions#scaling-values).
 
 In VanillaRemade this feature is not used to not complicate simple scaling code. If you want to know how vanilla cards handle it, check the [lovely patches on the SMODS repository](https://github.com/Steamodded/smods/blob/main/lovely/scaling.toml) or your Lovely dump folder.
 
@@ -1460,6 +1507,8 @@ Then you will be able to use `{C:modprefix_your_colour_name}text` in your descri
 ```lua
 -- Change name and description when card is eternal
 loc_vars = function(self, info_queue, card)
+    -- `key` will change both the name and description
+    -- but you can use `name_key` to only change the name or keep the old one
     return { key = card.ability.eternal and "j_modprefix_key_alt" or nil }
 end,
 ```
@@ -1476,7 +1525,7 @@ return {
                     "Original Description"
                 },
             },
-            j_modprefix_key_alt = { -- It will change both so you have to repeat the original text if you want to keep it.
+            j_modprefix_key_alt = {
                 name = "Alt name",
                 text = {
                     "Alt Description"
@@ -1519,7 +1568,7 @@ SMODS.Atlas {
 
 [`info_queue` in `loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars)
 
-If you want to add a custom one you can do:
+If you want to add custom text instead of using a preexisting card you can do:
 
 ```lua
 loc_vars = function(self, info_queue, card)
@@ -1674,7 +1723,9 @@ end
 
 ### How do I add a custom icon?
 
-Make an [`SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas) with key `'modicon'`.
+Add the path to your [mod metadata](https://github.com/Steamodded/smods/wiki/Mod-Metadata).
+
+Alternatively, you can make an [`SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas) with key `'modicon'` but this will not show up while disabled.
 
 ```lua
 SMODS.Atlas({
@@ -1704,6 +1755,7 @@ local my_config = SMODS.current_mod.config
 --- In another loaded file
 SMODS.current_mod.config_tab = function()
     -- UI Wizardry
+    -- You can copypaste this for a simple page with some toggles
     return {
         n = G.UIT.ROOT,
         config = { r = 0.1, minw = 8, align = "tm", padding = 0.2, colour = G.C.BLACK },
@@ -1763,26 +1815,41 @@ end
 
 To edit the background swirl:
 
-```lua
-local game_main_menu_ref = Game.main_menu
-function Game:main_menu(...)
-    local ret = game_main_menu_ref(self, ...)
-
-    G.SPLASH_BACK:define_draw_steps({
-        {
-            shader = "splash", -- You can replace the shader altogether
-            send = {
-                { name = "time",       ref_table = G.TIMERS, ref_value = "REAL_SHADER" },
-                { name = "vort_speed", val = 0.4 },
-                -- Here edit `ref_table` and `ref_value` with your own colors
-                { name = "colour_1",   ref_table = G.C,  ref_value = "CHIPS" },
-                { name = "colour_2",   ref_table = G.C,      ref_value = "BLACK" },
-            },
-        },
-    })
-
-    return ret
-end
+```toml
+# In a lovely patch
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+G.SPLASH_BACK:define_draw_steps({{
+        shader = 'splash',
+        send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'vort_speed', val = 0.4},
+            {name = 'colour_1', ref_table = G.C, ref_value = 'RED'},
+            {name = 'colour_2', ref_table = G.C, ref_value = 'BLUE'},
+            {name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+            {name = 'vort_offset', val = 0},
+        }}})
+'''
+# There is no nice way to replace backgrounds at the moment so an override is not a problem
+# but keep an eye for SMODS features in the future
+position = "at"
+payload = '''
+G.SPLASH_BACK:define_draw_steps({{
+        shader = 'splash', -- You can replace the shader altogether
+        send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'vort_speed', val = 0.4},
+             -- Here edit `ref_table` and `ref_value` with your own colors
+            {name = 'colour_1', ref_table = G.C, ref_value = 'GREEN'},
+            {name = 'colour_2', ref_table = G.C, ref_value = 'RED'},
+            {name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+            {name = 'vort_offset', val = 0},
+        }}})
+'''
+match_indent = true
+times = 1
 ```
 
 To edit the logo:
@@ -1802,12 +1869,12 @@ SMODS.Atlas{
 ### How do I make a new card area?
 
 ```lua
-SMODS.current_mod.custom_card_areas = function(game) -- game is the same as G
-    game.modprefix_my_area = CardArea( -- Should be saved in G for it to be preserved between reloads
+SMODS.current_mod.custom_card_areas = function(g) -- g is the same as G
+    g.modprefix_my_area = CardArea( -- Should be saved in G for it to be preserved between reloads
         0, -- x coordinate
         0, -- y coordinate
-        game.CARD_W * 4.95, -- width (this is the default for G.jokers)
-        game.CARD_H * 0.95, -- height (this is the default for G.jokers)
+        g.CARD_W * 4.95, -- width (this is the default for G.jokers)
+        g.CARD_H * 0.95, -- height (this is the default for G.jokers)
         {
             -- optional, but recommended configs:
             card_limit = 1, -- card limit, doesn't actually affect the area unless checked manually
@@ -1815,7 +1882,7 @@ SMODS.current_mod.custom_card_areas = function(game) -- game is the same as G
             -- values can be `title`, `title_2`, `joker`, `shop`, `deck`, `hand`, `consumeable`, `voucher`, `play`, `discard`
             highlight_limit = 1,
             -- optional:
-            bg_colour = G.C.RED, -- background color
+            bg_colour = g.C.RED, -- background color
             no_card_count = true, -- removes the card count ui for the area types that have it by default
             align_buttons = true, -- aligns the buttons for cards like in the Joker/Consumable areas
         }
@@ -1863,14 +1930,15 @@ SMODS.calculate_context { modprefix_context_name = true, modprefix_arg = args } 
 -- Example:
 -- Context when a card in the Joker area is flipped
 local card_flip_ref = Card.flip
-function Card:flip()
-    card_flip_ref(self)
+function Card:flip(...)
+    local ret = card_flip_ref(self, ...)
     if G.jokers and self.area == G.jokers then
         SMODS.calculate_context({
             modprefix_card_flipped = self,
             modprefix_facedown = card.facing == "back"
         })
     end
+    return ret
 end
 ```
 
@@ -1957,6 +2025,9 @@ end
 
 ### Why do I get `attempt to compare number with table` when Talisman is installed?
 
+> [!IMPORTANT]
+> Encourage your players to switch to [Amulet](https://github.com/frostice482/amulet/tree/main) which solves this problem. It is a drop-in replacement for Talisman.
+
 The popular mod Talisman replaces some in-game values with tables in order to be able to reach higher numbers.
 Talisman itself handles most compatibility except for comparisons between values.
 
@@ -1988,6 +2059,3 @@ to_big = to_big or function(x) return x end
 ```
 
 The values changed by Talisman include scored chips, scored mult, total score, dollars, poker hand levels and others.
-
-> [!IMPORTANT]
-> Alternatively, encourage your players to switch to [Amulet](https://github.com/frostice482/amulet/tree/main) which solves this problem. It is a drop-in replacement for Talisman.
