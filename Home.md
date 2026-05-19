@@ -610,8 +610,49 @@ if context.end_of_round and context.main_eval and context.game_over == false the
 end
 ```
 
-> [!NOTE]
-> Tags have a completely different set of contexts for the `apply` function. See [Tags in the main repository](https://github.com/nh6574/VanillaRemade/blob/main/src/tags.lua) for examples.
+Tags have a completely different set of contexts for the `apply` function.
+
+```lua
+if context.type == "eval" then
+    -- During round evaluation, similar to context.round_eval
+    return {
+        dollars = tag.config.dollars, -- Dollars to give
+        condition = localize('ph_defeat_the_boss'), -- Text in the eval row
+        pos = tag.pos, -- Sprite atlas position
+        tag = tag -- Tag object
+end
+if context.type == "immediate" then
+    -- Immediately after skipping a Blind or when reaching the Blind select state
+end
+if context.type == "new_blind_choice" then
+    -- Immediately after the "immediate" type, but it stops after a tag triggers to allow effects with animations or that change state
+    -- Used to, for example, reroll the boss or open boosters
+end
+if context.type == "shop_start" then
+    -- When the shop is starting, before anything is generated
+end
+if context.type == "store_joker_create" then
+    -- Before a card is decided for the shop
+    return card -- Return a card to force it in the shop
+end
+if context.type == "store_joker_modify" then
+    -- After a card is decided for the shop, to modify it
+end
+if context.type == "voucher_add" then
+    -- When the shop is starting, after everything is generated
+end
+if context.type == "shop_final_pass" then
+    -- When the shop is starting, after voucher_add
+end
+if context.type == "tag_add" then
+    -- When a tag is added
+end
+if context.type == "round_start_bonus" then
+    -- When a hand is drawn
+end
+```
+
+See [Tags in the main repository](https://github.com/nh6574/VanillaRemade/blob/main/src/tags.lua) for examples.
 
 ### What are optional features?
 
