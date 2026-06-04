@@ -551,7 +551,7 @@ if next(SMODS.find_card("j_modprefix_key")) then
 end
 ```
 
-In this case `"j_modprefix_key"` refers to your hypothetical Joker, where `j` is the class prefix, `modprefix` is replaced by your mod's prefix and `key` is the key specified in `SMODS.Joker`. This is to avoid conflicts between objects from different classes7mods.
+In this case `"j_modprefix_key"` refers to your hypothetical Joker, where `j` is the class prefix, `modprefix` is replaced by your mod's prefix and `key` is the key specified in `SMODS.Joker`. This is to avoid conflicts between objects from different classes/mods.
 
 You can find the prefix for each class at the start of each page in the [SMODS Documentation](https://github.com/Steamodded/smods/wiki/) and you can find your mod's prefix in your JSON metadata.
 
