@@ -1764,18 +1764,7 @@ end
 
 ### How do I add a custom icon?
 
-Add the path to your [mod metadata](https://github.com/Steamodded/smods/wiki/Mod-Metadata).
-
-Alternatively, you can make an [`SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas) with key `'modicon'` but this will not show up while disabled.
-
-```lua
-SMODS.Atlas({
-    key = "modicon",
-    path = "icon.png",
-    px = 32,
-    py = 32
-})
-```
+Add `icon_path` to your [mod metadata](https://github.com/Steamodded/smods/wiki/Mod-Metadata).
 
 ### How do I add a config page?
 
