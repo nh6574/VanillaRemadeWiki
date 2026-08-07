@@ -14,7 +14,7 @@ This FAQ covers frequently used fields, functions and pieces of code for Balatro
 
 #### 1. Install Lovely and SMODS
 
-If you haven't already, install [Lovely](https://github.com/ethangreen-dev/lovely-injector) and [smods](https://github.com/Steamodded/smods) by following the [instructions here](https://github.com/Steamodded/smods/wiki).
+If you haven't already, install [Lovely](https://github.com/ethangreen-dev/lovely-injector) and [smods](https://github.com/Steamodded/smods) by following the [instructions here](https://docs.smods.dev/).
 
 It is recommended to have both updated at all times while developing as they release new features and bugfixes all the time.
 
@@ -57,7 +57,7 @@ Optionally, you can also point it to a love2d folder for more definitions or [th
 
 Now that we have all of that we will set up a quick template mod. First, create a folder for your mod if you haven't already. (I recommend developing directly on your Balatro Mods folder for fast testing.). Open that folder in VSCode.
 
-Create a [metadata file](https://github.com/Steamodded/smods/wiki/Mod-Metadata). For example, `coolbalatro.json`.
+Create a [metadata file](https://docs.smods.dev/API%20Documentation/Mod-Metadata/). For example, `coolbalatro.json`.
 
 It should contain something similar to this.
 
@@ -154,10 +154,10 @@ Now if you go to your GitHub profile your repository should be there. Hooray!
 
 That's it, now you're free to go and make your Balatro dreams come true. If you have no idea what to do next, here are a couple of things to look into:
 
-- [SMODS' Your First Mod](https://github.com/Steamodded/smods/wiki/Your-First-Mod) - Collection of resources for developing your first mod.
+- [SMODS' Your First Mod](https://docs.smods.dev/Guides/Your-First-Mod/) - Collection of resources for developing your first mod.
 - [Programming in Lua](https://www.lua.org/pil/contents.html) - Recommended in the previous link but worth restating. You will need at least some basic Lua knowledge to develop mods.
 - [A Beginner's Guide to Making Balatro Mods](https://www.youtube.com/playlist?list=PLC52vBRlSqLtmTyhEvU8k9bKbYI_os7tM) - Video guides for very beginner modders by one of the contributors to the VanillaRemade repository
-- [SMODS Documentation](https://github.com/Steamodded/smods/wiki/API-Documentation) - Crucial resource when developing mods. Always have this on hand.
+- [SMODS Documentation](https://docs.smods.dev/Game%20Objects/API-Documentation/) - Crucial resource when developing mods. Always have this on hand.
 - [VanillaRemade](https://github.com/nh6574/VanillaRemade) - You're here right now, hi! The main repository contains all vanilla objects recreated using SMODS to use as a reference. If you can think of a similar effect in the main game, just reference the relevant code.
 - [Lovely Documentation](https://github.com/ethangreen-dev/lovely-injector?tab=readme-ov-file#patches) - Documentation on Lovely patches.
 - Other mods - If you know of a similar effect in another mod, most devs won't have a problem with you taking inspiration from their code. Try to be polite and ask for permission first though!
@@ -431,13 +431,13 @@ end
 
 ### How do I make a texture pack?
 
-For playing card textures (collabs) check out [`SMODS.DeckSkin`](https://github.com/Steamodded/smods/wiki/SMODS.DeckSkin). You can find [an example here](https://github.com/Steamodded/examples/tree/master/Mods/DeckSkinTemplate).
+For playing card textures (collabs) check out [`SMODS.DeckSkin`](https://docs.smods.dev/Game%20Objects/SMODS.DeckSkin/). You can find [an example here](https://github.com/Steamodded/examples/tree/master/Mods/DeckSkinTemplate).
 
 For other kinds of textures use the [Malverk](https://github.com/Eremel/Malverk/tree/main) mod. You can find [an example here](https://github.com/Eremel/SpecTrans/)
 
 ### How do I change localization for vanilla/other mods' objects?
 
-Simply [make a localization file](https://github.com/Steamodded/smods/wiki/Localization#localization-files-recommended) and use the keys for what you want to localize.
+Simply [make a localization file](https://docs.smods.dev/API%20Documentation/Localization/) and use the keys for what you want to localize.
 
 ```lua
 return {
@@ -553,7 +553,7 @@ end
 
 In this case `"j_modprefix_key"` refers to your hypothetical Joker, where `j` is the class prefix, `modprefix` is replaced by your mod's prefix and `key` is the key specified in `SMODS.Joker`. This is to avoid conflicts between objects from different classes/mods.
 
-You can find the prefix for each class at the start of each page in the [SMODS Documentation](https://github.com/Steamodded/smods/wiki/) and you can find your mod's prefix in your JSON metadata.
+You can find the prefix for each class at the start of each page in the [SMODS Documentation](https://docs.smods.dev/) and you can find your mod's prefix in your JSON metadata.
 
 For example, if your prefix is `joy` and you have an Enhancement with key `hanafuda`, its full key will be `'m_joy_hanafuda'`.
 
@@ -565,7 +565,7 @@ Each object's `calculate` function is ran every time a specific set of actions o
 
 For example, `context.open_booster` is called when a booster is opened, `context.setting_blind` is called when selecting a Blind, etc.
 
-A [list of contexts](https://github.com/Steamodded/smods/wiki/Calculate-Functions#contexts) can be found in the SMODS Documentation.
+A [list of contexts](https://docs.smods.dev/API%20Documentation/Calculate-Functions/#contexts) can be found in the SMODS Documentation.
 
 The way to read this documentation is as follows:
 
@@ -656,7 +656,7 @@ See [Tags in the main repository](https://github.com/nh6574/VanillaRemade/blob/m
 
 ### What are optional features?
 
-[Some SMODS features](https://github.com/Steamodded/smods/wiki/Calculate-Functions#optional-features) are opt-in to use, in most cases because of excessive calculations. If any mod installed enables any optional feature then it will be enabled for all other mods.
+[Some SMODS features](https://docs.smods.dev/API%20Documentation/Calculate-Functions/#optional-features) are opt-in to use, in most cases because of excessive calculations. If any mod installed enables any optional feature then it will be enabled for all other mods.
 
 Here's how you would enable all current optional features.
 
@@ -729,7 +729,7 @@ end
 
 Allows giving cards their own specific weight. Normally in vanilla most card types don't have a weight but instead are determined with the pool type (i.e. all Rare Jokers have the same probability, as do all Tarots, etc.).
 
-See [this page in the SMODS docs](https://github.com/Steamodded/smods/wiki/Weight-System) for more information.
+See [this page in the SMODS docs](https://docs.smods.dev/API%20Documentation/Weight-System/) for more information.
 
 #### cardareas
 
@@ -748,7 +748,7 @@ end
 
 ### How do I add the custom art for my cards to my mod?
 
-[Make an `SMODS.Atlas`](https://github.com/Steamodded/smods/wiki/SMODS.Atlas). Example:
+[Make an `SMODS.Atlas`](https://docs.smods.dev/Game%20Objects/SMODS.Atlas/). Example:
 
 ```lua
 SMODS.Atlas({
@@ -823,7 +823,7 @@ These are the sources used in vanilla:
 
 ### How do I create a `pool`/`set`?
 
-[Make an `SMODS.ObjectType`](https://github.com/Steamodded/smods/wiki/SMODS.ObjectType). Example:
+[Make an `SMODS.ObjectType`](https://docs.smods.dev/Game%20Objects/SMODS.ObjectType/). Example:
 
 ```lua
 -- Food pool
@@ -861,7 +861,7 @@ SMODS.Joker {
 }
 ```
 
-Then you can use `SMODS.add_card{ set = "Joker", area = G.jokers, attributes = { 'mult', 'chips' } }` to get a random card with these attributes. See [the documentation](https://github.com/Steamodded/smods/wiki/SMODS.Attributes) for how to add your own and find which ones are provided by SMODS.
+Then you can use `SMODS.add_card{ set = "Joker", area = G.jokers, attributes = { 'mult', 'chips' } }` to get a random card with these attributes. See [the documentation](https://docs.smods.dev/Game%20Objects/SMODS.Attributes/) for how to add your own and find which ones are provided by SMODS.
 
 See also [what's a `pool` or `set`](#whats-a-poolset) and [how to get a pool](#how-do-i-get-the-set-pool-or-key-of-a-specific-cardobject).
 
@@ -995,7 +995,7 @@ pseudoshuffle(list, "modprefix_shuffle") -- You can also shuffle the list
 ```
 
 > [!Important]
-> If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using [`SMODS.pseudorandom_probability`](https://github.com/Steamodded/smods/wiki/Calculate-Functions#using-probability).
+> If you want to get an effect with a random chance (i.e. affected by Oops! All 6s), [check how Cavendish does it](https://github.com/nh6574/VanillaRemade/blob/main/src/jokers.lua) using [`SMODS.pseudorandom_probability`](https://docs.smods.dev/API%20Documentation/Calculate-Functions/#using-probability).
 
 ### How do I get the cards in an area?
 
@@ -1519,13 +1519,13 @@ G.FUNCS.cash_out({config = {}})
 
 ### How do I play music or a sound?
 
-[Check the SMODS docs](https://github.com/Steamodded/smods/wiki/SMODS.Sound#playing-sounds).
+[Check the SMODS docs](https://docs.smods.dev/Game%20Objects/SMODS.Sound/#playing-sounds).
 
 ### How do I use SMODS Scaling Manipulation/Detection?
 
 SMODS has an optional opt-in feature to scale cards and manipulate their scaling.
 
-For how to use and make your code compliant, check the [relevant documentation in the calculate page](https://github.com/Steamodded/smods/wiki/Calculate-Functions#scaling-values).
+For how to use and make your code compliant, check the [relevant documentation in the calculate page](https://docs.smods.dev/API%20Documentation/Calculate-Functions/#scaling-values).
 
 In VanillaRemade this feature is not used to not complicate simple scaling code. If you want to know how vanilla cards handle it, check the [lovely patches on the SMODS repository](https://github.com/Steamodded/smods/blob/main/lovely/scaling.toml) or your Lovely dump folder.
 
@@ -1591,7 +1591,7 @@ end
 
 ### How do I animate my card?
 
-Use an [animated atlas](https://github.com/Steamodded/smods/wiki/SMODS.Atlas).
+Use an [animated atlas](https://docs.smods.dev/Game%20Objects/SMODS.Atlas/).
 
 ```lua
 -- Example
@@ -1607,7 +1607,7 @@ SMODS.Atlas {
 
 ### How do I add a custom tooltip to the side of the description?
 
-[`info_queue` in `loc_vars`](https://github.com/Steamodded/smods/wiki/Localization#loc_vars)
+[`info_queue` in `loc_vars`](https://docs.smods.dev/API%20Documentation/Localization/#loc-vars)
 
 If you want to add custom text instead of using a preexisting card you can do:
 
@@ -1634,13 +1634,13 @@ return {
 }
 ```
 
-For decks use the [`{T:}` tag](https://github.com/Steamodded/smods/wiki/Text-Styling#text-hover-tooltip-modifier-t). Note that non-center keys (like above) don't work.
+For decks use the [`{T:}` tag](https://docs.smods.dev/Guides/Text-Styling/#text-hover-tooltip-modifier-t).
 
 ### How do I add a button to my card?
 
 > Thank you to srockw for the write up!
 
-The first thing you'll need is the actual button UI definition, you can get as creative as you want following both the vanilla code and [the SMODS UI guide](https://github.com/Steamodded/smods/wiki/UI-Guide). But if all you want is to create a simple button, here is a function that will create one:
+The first thing you'll need is the actual button UI definition, you can get as creative as you want following both the vanilla code and [the SMODS UI guide](https://docs.smods.dev/Guides/UI-Guide/). But if all you want is to create a simple button, here is a function that will create one:
 
 ```lua
 local function create_my_button_ui(card)
@@ -1764,11 +1764,11 @@ end
 
 ### How do I add a custom icon?
 
-Add `icon_path` to your [mod metadata](https://github.com/Steamodded/smods/wiki/Mod-Metadata).
+Add `icon_path` to your [mod metadata](https://docs.smods.dev/API%20Documentation/Mod-Metadata/).
 
 ### How do I add a config page?
 
-Set up a [config.lua](https://github.com/Steamodded/smods/wiki/The-Mod-Object#setting-up-your-config) and a [config tab](https://github.com/Steamodded/smods/wiki/The-Mod-Object#creating-a-config-tab).
+Set up a [config.lua](https://docs.smods.dev/API%20Documentation/The-Mod-Object/#setting-up-your-config) and a [config tab](https://docs.smods.dev/API%20Documentation/The-Mod-Object/#creating-a-config-tab).
 
 Basic example:
 
@@ -2026,7 +2026,7 @@ end
 
 Scoring in the game is calculated all at once before the hand is played, so anything you do in a scoring context will happen before the animations play.
 
-If you want it to happen at the time when the animations play [use Events](https://github.com/Steamodded/smods/wiki/Guide-%E2%80%90-Event-Manager).
+If you want it to happen at the time when the animations play [use Events](https://docs.smods.dev/Guides/Event-Manager/).
 
 ```lua
 -- In calculate
