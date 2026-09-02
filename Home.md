@@ -1442,7 +1442,7 @@ mult = mod_mult(mult + 20)
 
 ```lua
 --- Method 1
---- For playing cards while scoring/discarding
+--- For playing cards while scoring/discarding, respects vanilla timing
 if context.destroy_card then
     if context.cardarea == G.hand and context.destroy_card:is_suit("Diamonds") then -- If it's a Diamond held in hand
         return { remove = true }
