@@ -51,7 +51,7 @@ To accomplish this in VSCode you can either:
 }
 ```
 
-Optionally, you can also point it to a love2d folder for more definitions or [this project by frostice482](https://github.com/frostice482/balatro-lsp) that adds more descriptions to vanilla code.
+Optionally, you can also point it to a love2d folder for more definitions or [this project by frostice482](https://codeberg.org/frostice482/balatro-lsp) that adds more descriptions to vanilla code.
 
 #### 4. Basic mod
 
