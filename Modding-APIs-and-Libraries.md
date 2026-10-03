@@ -168,6 +168,13 @@ Adds a new (cute) card type present from the start of the run.
 
 [Repository](https://github.com/Icecanno/Partner-API/)
 
+### Fusion Jokers
+
+Adds Joker fusions and an API to add your own.
+
+[Repository](https://github.com/wingedcatgirl/Fusion-Jokers/)
+[Documentation](https://github.com/wingedcatgirl/Fusion-Jokers/#-fusion-api-for-developers-)
+
 ### Penumbra
 
 A music mod manager.
