@@ -16,6 +16,7 @@ Either way, Lovely provides a way for mods to inject or replace code from the ba
 
 [Repository](https://github.com/ethangreen-dev/lovely-injector)
 [Documentation](https://github.com/ethangreen-dev/lovely-injector#patches)
+
 See also: [What is a patch?](https://github.com/nh6574/VanillaRemade/wiki#whats-a-patch)
 
 ## SMODS
@@ -26,6 +27,7 @@ There's no space for me to describe the amount of features SMODS adds so I won't
 
 [Repository](https://smods.dev)
 [Documentation](https://docs.smods.dev)
+
 See also: [Vanilla objects reimplemented in SMODS](https://github.nh6574.com/vanillaremade) and [example mods](https://github.com/Steamodded/examples/tree/master/Mods)
 
 ## Amulet
@@ -37,6 +39,7 @@ Basically if you want to do exponents or higher it only makes sense to use this,
 For more advanced users, this provides a whole library of tools for manipulating big numbers.
 
 [Repository](https://github.com/frostice48⁰2/amulet)
+
 See also: [How to do exponents/hyperoperations](https://github.com/nh6574/VanillaRemade/wiki#how-do-i-add-exponential-multchips)
 
 ## Malverk
@@ -47,6 +50,7 @@ The only exception is suit and rank textures (vanilla "collabs") since those are
 
 [Repository](https://github.com/Eremel/Malverk/tree/main)
 [Documentation](https://github.com/Eremel/Malverk/tree/main#defining-an-alttexture)
+
 See also: [How to make a texture pack](https://github.com/nh6574/VanillaRemade/wiki#how-do-i-make-a-texture-pack)
 
 ## Spectrallib
@@ -200,5 +204,6 @@ Show information under Jokers (this one is bad because I made it).
 ### PlayLog
 
 Shows a log of every action since the start of the run (this one is good because Dilly helped me make it).
+
 [Repository](https://github.nh6574.com/playlog)
 [Documentation](https://github.nh6574.com/playlog/wiki)
