@@ -38,7 +38,7 @@ Basically if you want to do exponents or higher it only makes sense to use this,
 
 For more advanced users, this provides a whole library of tools for manipulating big numbers.
 
-[Repository](https://github.com/frostice48⁰2/amulet)
+[Repository](https://github.com/frostice482/amulet)
 
 See also: [How to do exponents/hyperoperations](https://github.com/nh6574/VanillaRemade/wiki#how-do-i-add-exponential-multchips)
 
